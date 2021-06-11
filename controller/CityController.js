@@ -23,6 +23,13 @@ class cityController {
         })
         .catch(err=>res.status(400).json(err));
     }
+    createCity2(req, res) {
+        City.create({ Name: req.body.Name,FYear: req.body.Fyear,CDesc: req.body.CDesc,IDR: req.body.IDR})
+        .then(() => {
+            res.redirect('/admin/city/');
+        })
+        .catch(err=>res.status(400).json(err));
+    }
 }
 
 module.exports= new cityController();
