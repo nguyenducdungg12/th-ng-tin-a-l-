@@ -3,7 +3,7 @@ const sequelize=require('./../config/db');
 
 const CityModel = sequelize.define('City', {
     // Model attributes are defined here
-    asdfasasfdsdsaadfasdfsadfsadsdf
+    IDC: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     IDR: { type: DataTypes.INTEGER },
     Name: { type: DataTypes.STRING },
     FYear: { type: DataTypes.INTEGER },
