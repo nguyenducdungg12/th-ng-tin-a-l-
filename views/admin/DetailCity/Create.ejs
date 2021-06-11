@@ -1,0 +1,50 @@
+<div class='AdminProduct'>
+    <div class="container">
+        <h2 class="admin-title">
+            Chi tiết thành phố
+        </h2>
+        <div class="admin-control">
+            <a href="/admin/DetailCity/create" class="admin-controll-add btn btn-primary">
+                Thêm chi tiết thành phố
+            </a>
+        </div>
+        <div class="AdminProduct-list">
+            <div class="row">
+                <div class="col-12">
+                    <form method="POST" action="/admin/City">
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Year</label>
+                            <input type="number" class="form-control" min=1900 max=2100 value="2006" name='Fyear' id="exampleFormControlInput2" placeholder="10" />
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlSelect3">Loại Thành Phố</label>
+                            <select class="form-control" id="exampleFormControlSelect3"  name='type'>
+                                <option  value=''>Chọn Loại Thành Phố</option>
+                                <option  value='1' >Thành Phố Loại 1</option>
+                                <option  value='2'>Thành Phố Loại 2</option>
+                                <option  value='3'>Thành Phố Loại 3</option>
+                            </select>
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Dân số</label>
+                            <input type="number" class="form-control" min="0"  name='Population' id="exampleFormControlInput2" placeholder="1000000" />
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Diện Tích</label>
+                            <input type="number" class="form-control" min="0"  name='Area' id="exampleFormControlInput2" placeholder="3000000" />
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Tốc độ phát triển công nghiệp</label>
+                            <input type="text" class="form-control" name='Area' id="exampleFormControlInput2" placeholder="6%" />
+                        </div>
+                        <div style="text-align: center; margin-top: 20px;">
+            
+                            <button type="submit" class="btn btn-primary mb-2">Thêm</button>
+                            <button class="btn btn-secondary mb-2 ml-5" >Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
