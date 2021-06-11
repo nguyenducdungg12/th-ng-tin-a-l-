@@ -16,6 +16,7 @@
                             <thead>
                                 <tr>
                                     <th class="product-thumbnail">Tên Thành phố</th>
+                                    <th class="product-thumbnail">Khu Vực</th>
                                     <th class="product-name">Năm thành lập</th>
                                     <th class="product-price">Mô tả</th>
                                     <th class="product-add-to-cart">Sửa</th>
@@ -23,6 +24,16 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <% cities.forEach(function(city){ %>
+                                    <tr>
+                                        <th><%=city.dataValues.Name%></th>
+                                        <th></th>
+                                        <th><%=city.dataValues.FYear%></th>
+                                        <th><%=city.dataValues.CDesc%></th>
+                                        <th><button>Sửa</button></th>
+                                        <th><button>Xóa</button></th>
+                                    </tr>
+                                  <% }); %>
                             </tbody>
                         </table>
                     </div>

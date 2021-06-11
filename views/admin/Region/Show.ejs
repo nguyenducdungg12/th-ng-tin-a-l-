@@ -18,10 +18,21 @@
                                 <tr>
                                     <th class="product-name">Tên Vùng</th>
                                     <th class="product-price">Mô tả</th>
-                                    
+                                    <th class="product-price">Vị trí</th>   
+                                    <th class="product-price">Sửa</th>   
+                                    <th class="product-price">Xóa</th>                                                          
                                 </tr>
                             </thead>
                             <tbody>
+                                <% regions.forEach(function(region){ %>
+                                    <tr>
+                                        <th><%=region.dataValues.Name%></th>
+                                        <th><%=region.dataValues.RDesc%></th>
+                                        <th><%=region.dataValues.Location%></th>
+                                        <th><button class="btn btn-primary">Sửa</button></th>
+                                        <th><button class="btn btn-danger">Xóa</button></th>
+                                    </tr>
+                                  <% }); %>
                             </tbody>
                         </table>
                     </div>

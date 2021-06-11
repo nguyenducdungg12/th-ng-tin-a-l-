@@ -11,20 +11,23 @@
         <div class="AdminProduct-list">
             <div class="row">
                 <div class="col-12">
-                    <form method="POST" action="/admin/City">
+                    <form method="POST" action="/admin/region/create">
                         <div class="form-group my-3">
                             <label for="exampleFormControlInput1">Tên Vùng</label>
-                            <input type="text" class="form-control"  name='region' id="exampleFormControlInput1" placeholder="Thành Phố Biên Hòa" />
+                            <input type="text" class="form-control" name='Name' id="exampleFormControlInput1"
+                                placeholder="Thành Phố Biên Hòa" />
                         </div>
                         <div class="form-group">
                             <label for="exampleTextarea">Mô Tả Vùng</label>
-                            <textarea class="form-control" name="CDesc" id="exampleTextarea" rows="3"></textarea>
-                          </div>
-                    
+                            <textarea class="form-control" name="RDesc" id="exampleTextarea" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea">Vị trí</label>
+                            <textarea class="form-control" name="Location" id="exampleTextarea" rows="3"></textarea>
+                        </div>
                         <div style="text-align: center; margin-top: 20px;">
-            
                             <button type="submit" class="btn btn-primary mb-2">Thêm</button>
-                            <button class="btn btn-secondary mb-2 ml-5" >Hủy</button>
+                            <button class="btn btn-secondary mb-2 ml-5">Hủy</button>
                         </div>
                     </form>
                 </div>
