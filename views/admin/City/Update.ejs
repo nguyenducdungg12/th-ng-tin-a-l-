@@ -1,0 +1,49 @@
+<div class='AdminProduct'>
+    <div class="container">
+        <h2 class="admin-title">
+            Quản lý thành phố
+        </h2>
+        <div class="admin-control">
+            <button class="admin-controll-add btn btn-primary">
+                Thêm thành phố
+            </button>
+        </div>
+        <div class="AdminProduct-list">
+            <div class="row">
+                <div class="col-12">
+                    <form method="POST" action="/admin/City/update/<%=data.IDC%>">
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput1">Tên Thành Phố </label>
+                            <input type="text" class="form-control" value="<%= data.Name %>" name='Name' id="exampleFormControlInput1" placeholder="Thành Phố Biên Hòa" />
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput1">Khu vực</label>
+                        
+                            <select name="IDR">
+                                <% regions.forEach(function(region){ %>
+                                    <option   <% if(data.IDR==region.dataValues.IDR) { %> 
+                                                selected
+                                        <% } %>
+                                        value="<%=region.dataValues.IDR%>"><%=region.dataValues.Name%></option>
+                                  <% }); %>
+                            </select>
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Năm Thành Lập</label>
+                            <input type="number" class="form-control" min="1900" max="2100" value="<%= data.FYear %>" name='Fyear' id="exampleFormControlInput2" placeholder="10" />
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea">Mô Tả Thành Phố</label>
+                            <textarea class="form-control" name="CDesc" id="exampleTextarea" rows="3"><%= data.CDesc %></textarea>
+                          </div>
+                    
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button type="submit" class="btn btn-primary mb-2">Sửa</button>
+                            <a href="/admin/City"class="btn btn-secondary mb-2 ml-5" >Hủy</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

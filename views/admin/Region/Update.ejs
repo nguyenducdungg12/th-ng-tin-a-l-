@@ -11,22 +11,22 @@
         <div class="AdminProduct-list">
             <div class="row">
                 <div class="col-12">
-                    <form method="POST" action="/admin/region/create">
+                    <form method="POST" action="/admin/region/update/<%=region.IDR%>">
                         <div class="form-group my-3">
                             <label for="exampleFormControlInput1">Tên Vùng</label>
-                            <input type="text" class="form-control" name='Name' id="exampleFormControlInput1"
+                            <input type="text" class="form-control" value=" <%= region.Name %>" name='Name' id="exampleFormControlInput1"
                                 placeholder="Thành Phố Biên Hòa" />
                         </div>
                         <div class="form-group">
                             <label for="exampleTextarea">Mô Tả Vùng</label>
-                            <textarea class="form-control" name="RDesc" id="exampleTextarea" rows="3"></textarea>
+                            <textarea class="form-control" name="RDesc" id="exampleTextarea" rows="3"><%= region.RDesc %></textarea>
                         </div>
                         <div class="form-group">
                             <label for="exampleTextarea">Vị trí</label>
-                            <textarea class="form-control" name="Location" id="exampleTextarea" rows="3"></textarea>
+                            <textarea class="form-control" name="Location" id="exampleTextarea" rows="3"><%= region.Location %></textarea>
                         </div>
                         <div style="text-align: center; margin-top: 20px;">
-                            <button type="submit" class="btn btn-primary mb-2">Thêm</button>
+                            <button type="submit" class="btn btn-primary mb-2">Sửa</button>
                             <a href="/admin/region"class="btn btn-secondary mb-2 ml-5">Hủy</a>
                         </div>
                     </form>

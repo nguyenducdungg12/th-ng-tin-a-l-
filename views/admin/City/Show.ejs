@@ -16,7 +16,7 @@
                             <thead>
                                 <tr>
                                     <th class="product-thumbnail">Tên Thành phố</th>
-                                    <th class="product-thumbnail">Khu Vực</th>
+                                    <th class="product-thumbnail">Khu vực</th>
                                     <th class="product-name">Năm thành lập</th>
                                     <th class="product-price">Mô tả</th>
                                     <th class="product-add-to-cart">Sửa</th>
@@ -27,11 +27,11 @@
                                 <% cities.forEach(function(city){ %>
                                     <tr>
                                         <th><%=city.dataValues.Name%></th>
-                                        <th></th>
+                                        <th><%=city.dataValues.Region.dataValues.Name%></th>
                                         <th><%=city.dataValues.FYear%></th>
                                         <th><%=city.dataValues.CDesc%></th>
-                                        <th><button>Sửa</button></th>
-                                        <th><button>Xóa</button></th>
+                                        <th><a href=<%='/admin/City/update/'+city.dataValues.IDC %> class="btn btn-primary">Sửa</a></th>
+                                        <th><form method="POST" action="/admin/City/delete/<%=city.dataValues.IDC%>"><button class="btn btn-danger">Xóa</button></form></th>
                                     </tr>
                                   <% }); %>
                             </tbody>

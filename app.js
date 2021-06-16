@@ -37,7 +37,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin', adminRouter);
-var text = "đay là 1 cái test";
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
     next(createError(404));

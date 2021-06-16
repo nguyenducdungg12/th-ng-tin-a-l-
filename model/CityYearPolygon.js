@@ -5,7 +5,7 @@ const CityYearPolygonModel = sequelize.define('City_Year_Polygon', {
     // Model attributes are defined here
     IDPo: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     IDC: { type: DataTypes.INTEGER ,primaryKey:true},
-    Year: { type: DataTypes.STRING },
+    YEAR: { type: DataTypes.STRING },
     CityType: { type: DataTypes.INTEGER },
     Population: { type: DataTypes.INTEGER },
     Area: { type: DataTypes.FLOAT },

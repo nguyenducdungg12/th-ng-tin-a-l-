@@ -13,7 +13,9 @@
                 <div class="col-12 mb-5">
                     <select class="form-select" aria-label="Default select example">
                         <option selected>Chọn thành phố</option>
-                        
+                        <% citys.forEach(function(city){ %>
+                            <option value="<%=city.dataValues.IDC%>"><%=city.dataValues.Name%></option>
+                          <% }); %>
                       </select>
                 </div>
                 <div class="col-12">

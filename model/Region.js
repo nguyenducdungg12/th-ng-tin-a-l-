@@ -12,5 +12,6 @@ const RegionModel = sequelize.define('Region', {
     freezeTableName: true,
     timestamps: false
 });
-console.log(City);
+RegionModel.hasMany(City,{foreignKey:"IDR"});
+City.belongsTo(RegionModel,{foreignKey:"IDR"});
 module.exports = RegionModel;

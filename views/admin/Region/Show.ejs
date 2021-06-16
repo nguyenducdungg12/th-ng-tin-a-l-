@@ -29,8 +29,8 @@
                                         <th><%=region.dataValues.Name%></th>
                                         <th><%=region.dataValues.RDesc%></th>
                                         <th><%=region.dataValues.Location%></th>
-                                        <th><button class="btn btn-primary">Sửa</button></th>
-                                        <th><button class="btn btn-danger">Xóa</button></th>
+                                        <th><a href="/admin/region/update/<%=region.dataValues.IDR%>" class="btn btn-primary">Sửa</a></th>
+                                        <th><form method="POST" action="/admin/region/delete/<%=region.dataValues.IDR%>"><button class="btn btn-danger">Xóa</button></form></th>
                                     </tr>
                                   <% }); %>
                             </tbody>

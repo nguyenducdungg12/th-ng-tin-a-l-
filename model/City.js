@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize=require('./../config/db');
-
+const CityYearPolygon = require('./CityYearPolygon');
 const CityModel = sequelize.define('City', {
     // Model attributes are defined here
     IDC: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -12,5 +12,6 @@ const CityModel = sequelize.define('City', {
     freezeTableName: true,
     timestamps: false
 });
-
+CityModel.hasMany(CityYearPolygon,{foreignKey:"IDC"});
+CityYearPolygon.belongsTo(CityModel,{foreignKey:"IDC"});
 module.exports = CityModel;
