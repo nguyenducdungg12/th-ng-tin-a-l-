@@ -7,7 +7,7 @@ router.get("/",(req,res)=>{
     res.render("admin/DashBoard",{title:"Bảng Thống Kê", layout:'admin/Layout/layout'});
 })
 // City
-router.get("/City",cityController.getCity)
+router.get("/City",cityController.getCity);
 router.get("/City/create",cityController.getCreateCity);
 router.get("/City/update/:id",cityController.getUpdateCity);
 router.post("/City/update/:id",cityController.postUpdateCity);
@@ -16,8 +16,8 @@ router.post("/City/delete/:id",cityController.deleteCity);
 
 //Detail City
 router.get("/DetailCity",CityYearPolygonController.getCity);
-router.get("/DetailCity/create",CityYearPolygonController.getCreateDetailCity)
-router.get("/DetailCity/update/:id",CityYearPolygonController.getUpdateDetailCity)
+router.get("/DetailCity/create",CityYearPolygonController.getCreateDetailCity);
+router.get("/DetailCity/update/:id",CityYearPolygonController.getUpdateDetailCity);
 router.post("/DetailCity/update/:id",CityYearPolygonController.postUpdateDetailCity);
 router.post("/DetailCity/create",CityYearPolygonController.createDetailCity);
 router.post("/DetailCity",CityYearPolygonController.getDetailCity);

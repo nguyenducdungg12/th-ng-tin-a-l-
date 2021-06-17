@@ -1,6 +1,6 @@
 const Region = require('../model/Region');
-const City = require('../model/City')
-const CityYearPolygon = require('../model/CityYearPolygon')
+const City = require('../model/City');
+const CityYearPolygon = require('../model/CityYearPolygon');
 class cityYearPolygonController {
     async getCity(req, res) {
         try {
@@ -68,6 +68,7 @@ class cityYearPolygonController {
         CityYearPolygon.create({ ...req.body,Location : JSON.stringify(req.body.Location) })
             .then(() => {
                 res.redirect('/admin/DetailCity/');
+                
             })
             .catch(err => res.status(400).json(err));
     }
