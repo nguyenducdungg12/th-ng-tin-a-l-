@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var adminRouter = require('./routes/admin');
 
+
+
 // Connect DB
 // var db = require('./config/db/index');
 // async function a() {
@@ -25,7 +27,8 @@ var app = express();
 
 // view engine setup
 app.use(expressLayouts)
-app.set('views', path.join(__dirname, 'views'));
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
