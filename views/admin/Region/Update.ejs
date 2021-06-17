@@ -1,11 +1,11 @@
 <div class='AdminProduct'>
     <div class="container">
         <h2 class="admin-title">
-            Quản lý vùng miền
+            Quản lý Miền
         </h2>
         <div class="admin-control">
             <a href="/admin/DetailCity/create" class="admin-controll-add btn btn-primary">
-                Thêm vùng
+                Thêm Miền
             </a>
         </div>
         <div class="AdminProduct-list">
@@ -13,12 +13,12 @@
                 <div class="col-12">
                     <form method="POST" action="/admin/region/update/<%=region.IDR%>">
                         <div class="form-group my-3">
-                            <label for="exampleFormControlInput1">Tên Vùng</label>
+                            <label for="exampleFormControlInput1">Tên Miền</label>
                             <input type="text" class="form-control" value=" <%= region.Name %>" name='Name' id="exampleFormControlInput1"
                                 placeholder="Thành Phố Biên Hòa" />
                         </div>
                         <div class="form-group">
-                            <label for="exampleTextarea">Mô Tả Vùng</label>
+                            <label for="exampleTextarea">Mô Tả Miền</label>
                             <textarea class="form-control" name="RDesc" id="exampleTextarea" rows="3"><%= region.RDesc %></textarea>
                         </div>
                         <div class="form-group">

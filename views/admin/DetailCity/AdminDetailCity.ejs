@@ -15,7 +15,7 @@
                         <option selected>Chọn thành phố</option>
                         <% citys.forEach(function(city){ %>
                             <option value="<%=city.dataValues.IDC%>"><%=city.dataValues.Name%></option>
-                                <% }) %>
+                          <% }); %>
                       </select>
                 </div>
                 <div class="col-12">
@@ -24,17 +24,12 @@
                             <thead>
                                 <tr>
                                     <th class="product-name">Năm</th>
-                                    <th class="product-price">Loại thành phố</th>
-                                    <th class="product-add-to-cart">Dân số</th>
-                                    <th class="product-remove">Diện tích</th>
-                                    <th class="product-remove">Tốc độ phát triển công nghiệp</th>
-                                    <th class="product-remove">Tọa độ</th>
+                                    <th class="product-price">Mô tả</th>
                                     <th class="product-add-to-cart">Sửa</th>
                                     <th class="product-remove">Xóa</th>
                                 </tr>
                             </thead>
                             <tbody>
-
                             </tbody>
                         </table>
                     </div>
@@ -44,15 +39,3 @@
         </div>
     </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-        $(function(){
-            $("select").change((e)=>{
-                $.post("/admin/DetailCity",{id:e.target.value}, function(data, status){
-                    console.log(1234);
-                    $(".wishlist_table").html(data);
-                });
-            })
-        })
-</script>
