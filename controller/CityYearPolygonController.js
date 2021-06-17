@@ -57,7 +57,7 @@ class cityYearPolygonController {
         const {id} = req.params;
         CityYearPolygon.update({
             ...req.body,
-        },{where : {IDPo:id}}).then(()=>{
+        },{where : {IDPo:id}}).then(()=>{   
             res.redirect("/admin/DetailCity");
         }).catch(err=>{
             res.json(err);
@@ -65,9 +65,8 @@ class cityYearPolygonController {
 
     }
     createDetailCity(req, res) {
-        CityYearPolygon.create({ ...req.body })
+        CityYearPolygon.create({ ...req.body,Location : JSON.stringify(req.body.Location) })
             .then(() => {
-                
                 res.redirect('/admin/DetailCity/');
             })
             .catch(err => res.status(400).json(err));
