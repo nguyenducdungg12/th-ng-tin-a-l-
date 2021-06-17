@@ -73,3 +73,15 @@ a{
       height: 100vh;
       overflow-y: scroll;
   }
+
+
+.admin-detail-city tbody .product-add-to-cart{
+    white-space: nowrap;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .admin-detail-city .product-name {
+      width: 70px;
+  }
