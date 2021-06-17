@@ -1,0 +1,63 @@
+<div class='AdminProduct'>
+    <div class="container">
+        <h2 class="admin-title">
+            Chi tiết thành phố
+        </h2>
+        <div class="admin-control">
+            <a href="/admin/DetailCity/create" class="admin-controll-add btn btn-primary">
+                Thêm chi tiết thành phố
+            </a>
+        </div>
+        <div class="AdminProduct-list">
+            <div class="row">
+                <div class="col-12">
+                    <form method="POST" action="/admin/DetailCity/update/<%= DetailCity.dataValues.IDPo %>">
+                        <div class="form-group my-3">
+                            <select class="form-select" name="IDC" aria-label="Default select example">
+                                <% citys.forEach(function(city){ %>
+                                    <option <% if(DetailCity.dataValues.IDC==city.dataValues.IDC) { %> 
+                                                 selected
+                                          <% } %>
+                                        value="<%=city.dataValues.IDC%>"><%=city.dataValues.Name%></option>
+                                  <% }); %>
+                              </select>
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Year</label>
+                            <input type="number" class="form-control"min=1900 max=2100  value="<%= DetailCity.dataValues.YEAR %>"name='YEAR' id="exampleFormControlInput2" placeholder="1996" />
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlSelect3">Loại Thành Phố</label>
+                            <select class="form-control" id="exampleFormControlSelect3"  name='CityType'>
+                                <option  value=''>Chọn Loại Thành Phố</option>
+                                <option <% if(DetailCity.dataValues.CityType=="1"){ %>  selected  <% }%>  value='1' >Thành Phố Loại 1</option>
+                                <option <% if(DetailCity.dataValues.CityType=="2"){ %>  checked  <% }%>  value='2'>Thành Phố Loại 2</option>
+                                <option <% if(DetailCity.dataValues.CityType=="3"){ %>  checked  <% }%>  value='3'>Thành Phố Loại 3</option>
+                            </select>
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Dân số</label>
+                            <input type="number" class="form-control" min="0" value = "<%= DetailCity.dataValues.Population %>" name='Population' id="exampleFormControlInput2" placeholder="1000000" />
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Diện Tích</label>
+                            <input type="number" class="form-control" min="0" value="<%= DetailCity.dataValues.Area %>" name='Area' id="exampleFormControlInput2" placeholder="3000000" />
+                        </div>
+                        <div class="form-group my-3">
+                            <label for="exampleFormControlInput2">Tốc độ phát triển công nghiệp</label>
+                            <input type="text" class="form-control" name='Industry' value="<%= DetailCity.dataValues.Industry %>" id="exampleFormControlInput2" placeholder="6%" />
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleTextarea">Tọa độ</label>
+                            <textarea class="form-control" name="Location" id="exampleTextarea" rows="3"></textarea>
+                          </div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button type="submit" class="btn btn-primary mb-2">Sửa</button>
+                            <a href="/admin/DetailCity"class="btn btn-secondary mb-2 ml-5" >Hủy</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -29,6 +29,7 @@ class cityYearPolygonController {
                 temp += `<th class="product-add-to-cart">${data.dataValues.Location}</th>`;
                 temp += `<th><a href='/admin/DetailCity/update/${data.dataValues.IDPo}' class="btn btn-primary">Sửa</a></th> `;
                 temp += `<th><form method="POST" action="/admin/DetailCity/delete/${data.dataValues.IDPo}"><button class="btn btn-danger">Xóa</button></form></th>`;
+                temp +=`</tr>`
             })
             res.send(temp);
         }
@@ -39,11 +40,34 @@ class cityYearPolygonController {
     async getCreateDetailCity(req, res) {
         const city = await City.findAll({});
         res.render("admin/DetailCity/Create", { title: "Chi tiết thành phố", layout: 'admin/Layout/layout', citys: city });
+    }
+    async getUpdateDetailCity(req,res){
+        const {id} = req.params;
+        const city = await City.findAll({});
+        const DetailCity = await CityYearPolygon.findOne({
+            where : {IDPo : id}
+        })
+        const cityCheck = await City.findOne({
+            where : {IDC : DetailCity.dataValues.IDC}
+        }); 
+        res.render("admin/DetailCity/Update", { title: "Chi tiết thành phố", layout: 'admin/Layout/layout', citys: city,DetailCity : DetailCity,cityCheck : cityCheck });
+
+    }
+    async postUpdateDetailCity(req,res){
+        const {id} = req.params;
+        CityYearPolygon.update({
+            ...req.body,
+        },{where : {IDPo:id}}).then(()=>{
+            res.redirect("/admin/DetailCity");
+        }).catch(err=>{
+            res.json(err);
+        })
 
     }
     createDetailCity(req, res) {
         CityYearPolygon.create({ ...req.body })
             .then(() => {
+                
                 res.redirect('/admin/DetailCity/');
             })
             .catch(err => res.status(400).json(err));

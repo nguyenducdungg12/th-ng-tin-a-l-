@@ -17,6 +17,8 @@ router.post("/City/delete/:id",cityController.deleteCity);
 //Detail City
 router.get("/DetailCity",CityYearPolygonController.getCity);
 router.get("/DetailCity/create",CityYearPolygonController.getCreateDetailCity)
+router.get("/DetailCity/update/:id",CityYearPolygonController.getUpdateDetailCity)
+router.post("/DetailCity/update/:id",CityYearPolygonController.postUpdateDetailCity);
 router.post("/DetailCity/create",CityYearPolygonController.createDetailCity);
 router.post("/DetailCity",CityYearPolygonController.getDetailCity);
 router.post("/DetailCity/delete/:id",CityYearPolygonController.deleteDetailCity);
