@@ -30,9 +30,10 @@
                             <label for="exampleFormControlSelect3">Loại Thành Phố</label>
                             <select class="form-control" id="exampleFormControlSelect3"  name='CityType'>
                                 <option  value=''>Chọn Loại Thành Phố</option>
-                                <option <% if(DetailCity.dataValues.CityType=="1"){ %>  selected  <% }%>  value='1' >Thành Phố Loại 1</option>
-                                <option <% if(DetailCity.dataValues.CityType=="2"){ %>  checked  <% }%>  value='2'>Thành Phố Loại 2</option>
-                                <option <% if(DetailCity.dataValues.CityType=="3"){ %>  checked  <% }%>  value='3'>Thành Phố Loại 3</option>
+                                <option <% if(DetailCity.dataValues.CityType=="0"){ %>  selected  <% }%>  value='1' >Đô thị loại đặc biệt</option>
+                                <option <% if(DetailCity.dataValues.CityType=="1"){ %>  selected  <% }%>  value='1' >Đô thị loại 1</option>
+                                <option <% if(DetailCity.dataValues.CityType=="2"){ %>  checked  <% }%>  value='2'>Đô thị loại 2</option>
+                                <option <% if(DetailCity.dataValues.CityType=="3"){ %>  checked  <% }%>  value='3'>Đô thị loại 3</option>
                             </select>
                         </div>
                         <div class="form-group my-3">
