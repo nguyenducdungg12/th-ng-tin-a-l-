@@ -21,12 +21,15 @@ class cityController {
         })
         .catch((err)=>res.json(err))
     }
-    postUpdateCity(req,res){
-        const {id} = req.params;
+    async postUpdateCity(req,res){
+       const {id} = req.params;
+      
+        console.log(req.body);
         City.update(
             {...req.body},
             {where : {IDC : id}},
-        ).then(()=>{
+        ).then((data)=>{
+            console.log(data);
             res.redirect("/admin/City");
         })
         .catch(err=>console.log(err));
@@ -59,7 +62,7 @@ class cityController {
         res.redirect("/admin/City");
     }
     createCity(req, res) {
-        City.create({ Name: req.body.Name,FYear: req.body.Fyear,CDesc: req.body.CDesc,IDR: req.body.IDR})
+        City.create({ Name: req.body.Name,FYear: req.body.FYear,CDesc: req.body.CDesc,IDR: req.body.IDR})
         .then(() => {
             res.redirect('/admin/city/');
         })
