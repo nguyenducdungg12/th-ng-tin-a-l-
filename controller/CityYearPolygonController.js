@@ -93,7 +93,6 @@ class cityYearPolygonController {
                 res.redirect('/admin/DetailCity/');
             })
             .catch(err => res.status(400).json(err));
-
        }
        catch(err){
                 CityYearPolygon.create({ ...req.body,Location : JSON.stringify(req.body.Location) })
