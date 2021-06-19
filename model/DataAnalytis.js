@@ -1,15 +1,16 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize=require('./../config/db');
-const DataAnalytisModel = sequelize.define('City', {
+const CityYearPolygon = require('./CityYearPolygon');
+const DataAnalytisModel = sequelize.define('Data_Analytis', {
     // Model attributes are defined here
     IDData: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    IDR: { type: DataTypes.INTEGER },
-    Name: { type: DataTypes.STRING },
-    FYear: { type: DataTypes.INTEGER },
-    CDesc: { type: DataTypes.STRING },
+    AVGAcr: { type: DataTypes.INTEGER },
+    DPop: { type: DataTypes.STRING },
+    llcreate: { type: DataTypes.INTEGER },
+    IDPo: { type: DataTypes.INTEGER },
 }, {
     freezeTableName: true,
     timestamps: false
 });
-
+DataAnalytisModel.hasOne(CityYearPolygon,{foreignKey:"IDPo"});
 module.exports = DataAnalytisModel;

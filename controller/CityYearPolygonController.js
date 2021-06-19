@@ -1,4 +1,7 @@
+const { Sequelize } = require('sequelize');
+const Op = Sequelize.Op;
 const Region = require('../model/Region');
+const DataAnalytis = require('../model/DataAnalytis')
 const City = require('../model/City');
 const CityYearPolygon = require('../model/CityYearPolygon');
 class cityYearPolygonController {
@@ -64,14 +67,44 @@ class cityYearPolygonController {
         })
 
     }
-    createDetailCity(req, res) {
-        CityYearPolygon.create({ ...req.body,Location : JSON.stringify(req.body.Location) })
-            .then(() => {
+   async createDetailCity(req, res) {
+       try{
+           const CityYearPolygonLastYear = await CityYearPolygon.findAll({
+               where : {
+                   [Op.and] : {
+                       YEAR : {
+                           [Op.lte] :req.body.YEAR,
+                       },
+                       YEAR : {
+                        [Op.gte] : req.body.YEAR-10,
+                       }
+                   },
+                   IDC : req.body.IDC,
+               },limit : 1,
+           })
+            
+           let AVGAcr = ((req.body.Area-CityYearPolygonLastYear[0].dataValues.Area)*100)/CityYearPolygonLastYear[0].dataValues.Area;
+           let DPop = ((req.body.Population-CityYearPolygonLastYear[0].dataValues.Population)*100)/CityYearPolygonLastYear[0].dataValues.Population;
+           let llcreate = ((req.body.Industry-CityYearPolygonLastYear[0].dataValues.Industry)*100)/CityYearPolygonLastYear[0].dataValues.Industry
+ 
+           CityYearPolygon.create({ ...req.body,Location : JSON.stringify(req.body.Location) })
+            .then(async (data) => {
+                await DataAnalytis.create({AVGAcr,DPop,llcreate,IDPo : data.dataValues.IDPo});
                 res.redirect('/admin/DetailCity/');
-                
             })
             .catch(err => res.status(400).json(err));
-    }
+
+       }
+       catch(err){
+                CityYearPolygon.create({ ...req.body,Location : JSON.stringify(req.body.Location) })
+                .then( (data) => {
+                    res.redirect('/admin/DetailCity/');
+                })
+                  .catch(err => res.status(400).json(err));
+           }
+       }
+    
+    
     async deleteDetailCity(req,res){
         const { id } = req.params;
         const cityYearPolygon = await CityYearPolygon.findOne({
