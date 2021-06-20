@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, where } = require('sequelize');
 const Op = Sequelize.Op;
 const Region = require('../model/Region');
 const DataAnalytis = require('../model/DataAnalytis')
@@ -58,13 +58,40 @@ class cityYearPolygonController {
     }
     async postUpdateDetailCity(req,res){
         const {id} = req.params;
-        CityYearPolygon.update({
-            ...req.body,
-        },{where : {IDPo:id}}).then(()=>{   
-            res.redirect("/admin/DetailCity");
-        }).catch(err=>{
+        try{
+            const CityYearPolygonLastYear = await CityYearPolygon.findAll({
+                where : {
+                    [Op.and] : {
+                        YEAR : {
+                            [Op.lte] :req.body.YEAR,
+                        },
+                        YEAR : {
+                         [Op.gte] : req.body.YEAR-10,
+                        }
+                    },
+                    IDC : req.body.IDC,
+                },limit : 1,
+            })
+           let AVGAcr = ((req.body.Area-CityYearPolygonLastYear[0].dataValues.Area)*100)/CityYearPolygonLastYear[0].dataValues.Area;
+           let DPop = ((req.body.Population-CityYearPolygonLastYear[0].dataValues.Population)*100)/CityYearPolygonLastYear[0].dataValues.Population;
+           let llcreate = ((req.body.Industry-CityYearPolygonLastYear[0].dataValues.Industry)*100)/CityYearPolygonLastYear[0].dataValues.Industry
+           var y = await DataAnalytis.update(
+               {AVGAcr,DPop,llcreate},
+                  {where : {IDPo : id}}
+            );
+            
+           await CityYearPolygon.update({
+                ...req.body,
+            },{where : {IDPo:id}}).then(()=>{   
+                res.redirect("/admin/DetailCity");
+            }).catch(err=>{
+                res.json(err);
+            })
+        }
+        catch(err){
             res.json(err);
-        })
+        }
+    
 
     }
    async createDetailCity(req, res) {

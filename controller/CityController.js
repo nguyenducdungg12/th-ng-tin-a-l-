@@ -23,13 +23,10 @@ class cityController {
     }
     async postUpdateCity(req,res){
        const {id} = req.params;
-      
-        console.log(req.body);
-        City.update(
+              City.update(
             {...req.body},
             {where : {IDC : id}},
         ).then((data)=>{
-            console.log(data);
             res.redirect("/admin/City");
         })
         .catch(err=>console.log(err));
