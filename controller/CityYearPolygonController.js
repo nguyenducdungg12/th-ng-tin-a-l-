@@ -63,7 +63,7 @@ class cityYearPolygonController {
                 where : {
                     [Op.and] : {
                         YEAR : {
-                            [Op.lte] :req.body.YEAR,
+                            [Op.lt] :req.body.YEAR,
                         },
                         YEAR : {
                          [Op.gte] : req.body.YEAR-10,
@@ -100,7 +100,7 @@ class cityYearPolygonController {
                where : {
                    [Op.and] : {
                        YEAR : {
-                           [Op.lte] :req.body.YEAR,
+                           [Op.lt] :req.body.YEAR,
                        },
                        YEAR : {
                         [Op.gte] : req.body.YEAR-10,
