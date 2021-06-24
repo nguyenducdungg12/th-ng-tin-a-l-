@@ -81,7 +81,7 @@ class cityYearPolygonController {
             );
             
            await CityYearPolygon.update({
-                ...req.body,
+                ...req.body,Location : JSON.stringify(req.body.Location)
             },{where : {IDPo:id}}).then(()=>{   
                 res.redirect("/admin/DetailCity");
             }).catch(err=>{
