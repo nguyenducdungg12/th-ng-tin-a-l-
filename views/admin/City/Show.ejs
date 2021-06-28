@@ -1,44 +1,44 @@
-<div class='AdminProduct'>
-    <div class="container">
-        <h2 class="admin-title">
-            Quản lý thành phố
-        </h2>
-        <div class="admin-control">
-            <a href="/admin/City/create"class="admin-controll-add btn btn-primary">
-                Thêm thành phố
-            </a>
+
+<div class="container-fluid py-5">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">BẢNG THÀNH PHỐ</h1>
+    <p class="mb-4">Hiển thị danh sách các thành phố hiện có trong database.</p>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Thông tin thành phố</h6>
         </div>
-        <div class="AdminProduct-list">
-            <div class="row">
-                <div class="col-12">
-                    <div class="table-responsive wishlist_table">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="product-thumbnail">Tên Thành phố</th>
-                                    <th class="product-thumbnail">Khu vực</th>
-                                    <th class="product-name">Năm thành lập</th>
-                                    <th class="product-price">Mô tả</th>
-                                    <th class="product-add-to-cart">Sửa</th>
-                                    <th class="product-remove">Xóa</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% cities.forEach(function(city){ %>
-                                    <tr>
-                                        <th><%=city.dataValues.Name%></th>
-                                        <th><%=city.dataValues.Region.dataValues.Name%></th>
-                                        <th><%=city.dataValues.FYear%></th>
-                                        <th><%=city.dataValues.CDesc%></th>
-                                        <th><a href=<%='/admin/City/update/'+city.dataValues.IDC %> class="btn btn-primary">Sửa</a></th>
-                                        <th><form method="POST" action="/admin/City/delete/<%=city.dataValues.IDC%>"><button class="btn btn-danger">Xóa</button></form></th>
-                                    </tr>
-                                  <% }); %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Tên Thành phố</th>
+                            <th>Khu vực</th>
+                            <th>Năm thành lập</th>
+                            <th>Mô tả</th>
+                            <th>Sửa</th>
+                            <th>xóa</th>
+                        </tr>
+                    </thead>
+                   
+                    <tbody>
+                        <% cities.forEach(function(city){ %>
+                            <tr>
+                                <th><%=city.dataValues.Name%></th>
+                                <th><%=city.dataValues.Region.dataValues.Name%></th>
+                                <th><%=city.dataValues.FYear%></th>
+                                <th><%=city.dataValues.CDesc%></th>
+                                <th><a href=<%='/admin/City/update/'+city.dataValues.IDC %> class="btn btn-primary">Sửa</a></th>
+                                <th><form method="POST" action="/admin/City/delete/<%=city.dataValues.IDC%>"><button class="btn btn-danger">Xóa</button></form></th>
+                            </tr>
+                          <% }); %>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+
 </div>

@@ -1,25 +1,67 @@
-  <div class="admin-sidebar">
-        <div class="admin-sidebar-logo">
-            <img src="" alt="" class="admin-sidebar-login-img" />
-        </div>
-        <div class="admin-sidebar-nav">
-            <a class='admin-sidear-nav-item'>
-                <i class="fas fa-bell"></i>
-                <span>BẢNG THỐNG KÊ</span>
-            </a>
-            <a class='admin-sidear-nav-item' href="/admin/City">
-                <i class="fas fa-bell"></i>
-                <span>THÊM THÀNH PHỐ</span>
-            </a>
-            <a class='admin-sidear-nav-item' href="/admin/DetailCity">
-                <i class="fas fa-bell"></i>
-                <span>THÊM CHI TIẾT THÀNH PHỐ</span>
-            </a>
-            <a class='admin-sidear-nav-item' href="/admin/region">
-                <i class="fas fa-bell"></i>
-                <span>THÊM MIỀN</span>
-            </a>
 
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
+            </div>
+            <div class="sidebar-brand-text mx-3">HDD</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>BẢNG THỐNG KÊ</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/admin/region">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>VÙNG</span></a>
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            THÀNH PHỐ
         </div>
-    </div>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/admin/City" >
+                <span> THÀNH PHỐ</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/admin/DetailCity" >
+                <span>CHI TIẾT THÀNH PHỐ</span>
+            </a>
+        </li>
+        
+
+      
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        
+
+
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
   
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    
