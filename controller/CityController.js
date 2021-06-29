@@ -14,7 +14,32 @@ class cityController {
         })
         .catch((err)=>res.json(err))
     }
+   async  getDashBoard(req,res){
+        var citys = await City.findAll({
+            include:[
+                {
+                    model : Region,
+                }
+            ]
+        });
+        console.log(citys[1].dataValues.Region.dataValues.Name);
+        var CityOfNorth=0,CityOfSouth=0,CityOfWestern=0;
+        citys.forEach(data=>{
+            if(data.dataValues.Region.dataValues.Name=="Miền Bắc"){
+                CityOfNorth++;
+            }
+            else if(data.dataValues.Region.dataValues.Name=="Miền Nam"){
+                CityOfSouth++;
+            }
+            else{
+                CityOfWestern++;
+            }
+        });
+            res.render("admin/DashBoard",{title:"Bảng Thống Kê", layout:'admin/Layout/layout',dataNorth:CityOfNorth,dataSouth:CityOfSouth,dataWestern:CityOfWestern});
+        
+        res.render("admin/DashBoard",{title:"Bảng Thống Kê", layout:'admin/Layout/layout'});
 
+    }
     getCreateCity(req,res){
         Region.findAll({}).then(region=>{
             res.render("admin/City/Create",{title:"Thêm Thành Phố", layout:'admin/Layout/layout',regions:region});
