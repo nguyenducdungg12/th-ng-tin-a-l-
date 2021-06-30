@@ -1,0 +1,79 @@
+body{
+    position: relative;
+}
+
+.view-container{
+    position: relative;
+}
+
+.dropdown-city{
+    color:red;
+    height: 60vh;
+    width: 500px;
+    position: absolute;
+    top:5%;
+    right:2%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 38px 12px rgba(0,0,0,0.56);
+}
+
+.dropdown-city--main{
+    padding:20px;    
+}
+
+.dropdown-city__title{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#timeline-city{
+    position: absolute;
+    bottom: 5%;
+    width: 100%;
+    left: 0;
+    height: 100px;
+    text-align: center;
+}
+
+.timeline-city--main{
+    margin: 0 auto;
+    width: 800px;
+    height: 100%;
+    background-color: white;
+    border-radius: 10px;    
+    box-shadow: 0px 0px 38px 12px rgba(0,0,0,0.56);
+    padding:20px;
+}
+
+.note{
+    position: absolute;
+    width: 100%;
+    top: 10%;
+    left:10%;
+    background-color: white;
+    width: 300px;
+    border-radius: 10px;    
+    box-shadow: 0px 0px 38px 12px rgba(0,0,0,0.56);
+}
+
+.note--main{
+    padding:20px;  
+}
+
+.note__title{
+    font-size: 20px;
+}
+
+.timeline-city__year{
+    display: flex;
+    justify-content: space-between;
+}
+
+.timeline-city__detail{
+    width: 100%;
+}
+
+/* #viewDiv{
+    position: absolute;
+} */
