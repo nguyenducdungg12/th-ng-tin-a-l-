@@ -1,58 +1,17 @@
-<!-- <div class='AdminProduct'>
-    <div class="container">
-        <h2 class="admin-title">
-            Quản lý Miền
-        </h2>
-        <div class="admin-control">
-            <a href="/admin/region/create" class="admin-controll-add btn btn-primary">
-                Thêm Miền
-            </a>
-        </div>
-        <div class="AdminProduct-list">
-            <div class="row">
-               
-                <div class="col-12">
-                    <div class="table-responsive wishlist_table">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="product-name">Tên Miền</th>
-                                    <th class="product-price">Mô tả</th>
-                                    <th class="product-price">Vị trí</th>   
-                                    <th class="product-price">Sửa</th>   
-                                    <th class="product-price">Xóa</th>                                                          
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% regions.forEach(function(region){ %>
-                                    <tr>
-                                        <th><%=region.dataValues.Name%></th>
-                                        <th><%=region.dataValues.RDesc%></th>
-                                        <th><%=region.dataValues.Location%></th>
-                                        <th><a href="/admin/region/update/<%=region.dataValues.IDR%>" class="btn btn-primary">Sửa</a></th>
-                                        <th><form method="POST" action="/admin/region/delete/<%=region.dataValues.IDR%>"><button class="btn btn-danger">Xóa</button></form></th>
-                                    </tr>
-                                  <% }); %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div> -->
 
 <div class="container-fluid py-5">
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">BẢNG VÙNG MIỀN</h1>
     <p class="mb-4">Hiển thị danh sách các miền hiện có</p>
-
+ 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
+        <div class="card-header py-3 d-flex justify-content-between        ">
             <h6 class="m-0 font-weight-bold text-primary">Thông tin vùng miền</h6>
+            <a href="/admin/region/create"class="admin-controll-add btn btn-primary">
+                Thêm vùng miền
+            </a>
         </div>
         <div class="card-body">
             <div class="table-responsive">

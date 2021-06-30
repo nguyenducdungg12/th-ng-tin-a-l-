@@ -3,9 +3,8 @@ var router = express.Router();
 const cityController=require('./../controller/CityController');
 const CityYearPolygonController = require('./../controller/CityYearPolygonController');
 const RegionController = require('./../controller/RegionController');
-router.get("/",(req,res)=>{
-    res.render("admin/DashBoard",{title:"Bảng Thống Kê", layout:'admin/Layout/layout'});
-})
+const City = require('../model/City');
+router.get("/",cityController.getDashBoard);
 // City
 router.get("/City",cityController.getCity);
 router.get("/City/create",cityController.getCreateCity);
