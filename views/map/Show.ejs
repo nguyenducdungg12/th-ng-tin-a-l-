@@ -89,11 +89,20 @@
         return content;
         }
  
+        function checkArraySimilar(id, arrays) {
+            return arrays.some( (array) => array.IDC === id);
+        }
+
         // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
         timeSlider.watch('timeExtent', function (value) {
             var year = value.end.getFullYear();
             map.remove(graphicsLayer1);
-            var temp =data.filter((data1) => data1.YEAR <= year);
+           
+            var temp = [];
+            for (var i= data.length - 1; i >=0 ; i--) {
+                if( data[i].YEAR <= year && !checkArraySimilar(data[i].IDC, temp))
+                    temp.push(data[i]);
+            }
             divInfo.innerHTML = renderInfoCity(temp);
             $(".infoDiv-item").click(function(){
                 const postion = this.children[0].getAttribute("data");
