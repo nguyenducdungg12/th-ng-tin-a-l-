@@ -13,7 +13,7 @@
     ], function (Map, MapView, Graphic, GraphicsLayer, TimeSlider, Expand) {
 
         var map = new Map({
-            basemap: "topo-vector",
+            basemap: "hybrid",
         });
 
         map.on("load", function () {
@@ -28,8 +28,7 @@
         });
 
         var data =<%- JSON.stringify(cities) %>
-
-       
+        var infoCity =<%- JSON.stringify(infoCity) %>
         var graphicsLayer1 = new GraphicsLayer();
         
         var graphicsLayer = new GraphicsLayer();
@@ -42,24 +41,10 @@
                 popupTemplate: data.popupTemplate,
             });
         };
+        var color = [];
         var jsondata = {
             polygons: []
         };
-        data.forEach(temp1 => {
-            jsondata.polygons.push({
-                type: "polygon",
-                rings: JSON.parse(temp1.Location),
-                Name: "Chua",
-                Location: "Chua",
-                symbol: {
-                    type: "simple-fill",
-                    outline: {
-                        color: [255, 0, 0],
-                        width: 1,
-                    },
-                },
-            })
-        });
 
 
         const infoNote = document.getElementById("infoNote");
@@ -87,7 +72,7 @@
                 end: new Date(2020, 0, 1)
             },
             mode: "cumulative-from-start",
-            playRate: 1000,
+            playRate: 3000,
             stops: {
                 interval: {
                     value: 1,
@@ -95,40 +80,52 @@
                 }
             }
         });
+        console.log(data);
+
+        function checkCityType(id) {
+            var result = infoCity.find( (data) => data.IDC === id);
+            return result;
+        }
+
         // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
         timeSlider.watch('timeExtent', function (value) {
             var year = value.end.getFullYear();
-            map.removeAll();
+            map.remove(graphicsLayer1);
             console.log(year);
             var temp =data.filter((data1) => data1.YEAR <= year);
             var temp2 = temp.map((data2) => ({
                 type: "polygon",
                 rings: JSON.parse(data2.Location),
-                Name: "Chua",
+                Name: checkCityType(data2.IDC).Name,
                 Location: "Chua",
                 symbol: {
+                    color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ?  [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
                     type: "simple-fill",
                     outline: {
-                        color: [255, 0, 0],
+                        color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ?  [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
                         width: 1,
                     },
                 },
+                popupTemplate: {    
+                    title: "{Name}",
+                    content:  checkCityType(data2.IDC).CDesc,
+                }
+                
             }))
             graphicsLayer1 = new GraphicsLayer();
-            temp2.forEach(function (data) {
-                graphicsLayer1.add(createGraphic(data));
-            });
-            // map.remove(graphicsLayer);
+            temp2.forEach((data) => 
+                graphicsLayer1.add(createGraphic(data))
+            );
             map.add(graphicsLayer1);
-            console.log(temp2);
             
-
+        
             // var graphicsLayer1 = new GraphicsLayer();
             // jsondata.polygons.forEach(function (data) {
             //     graphicsLayer1.add(createGraphic(data));
             // });
             // map.add(graphicsLayer1);
         });
+        view.popup.defaultPopupTemplateEnabled = true;
     });
 </script>
 <div id="timeline-city">
