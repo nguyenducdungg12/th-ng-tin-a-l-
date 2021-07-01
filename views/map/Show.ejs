@@ -1,52 +1,29 @@
-<!-- <script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<!-- <script src="/vendor/jquery-easing/jquery.easing.min.js"></script> -->
-
 <script>
-    var data =<%- JSON.stringify(cities) %>
-    var jsondata = {
-        polygons: []
-    };
-    var jsondata2 = {
-        polygons: []
-    };
-    data.filter(city => city.YEAR <= 2015).forEach(temp1 => {
-        jsondata.polygons.push({
-            type: "polygon",
-            rings: JSON.parse(temp1.Location),
-            Name: "Chua",
-            Location: "Chua",
-            symbol: {
-                type: "simple-fill",
-                outline: {
-                    color: [255, 0, 0],
-                    width: 1,
-                },
-            },
-        })
-    });
-    data.filter(city => city.YEAR <= 1976).forEach(temp1 => {
-        jsondata2.polygons.push({
-            type: "polygon",
-            rings: JSON.parse(temp1.Location),
-            Name: "Chua",
-            Location: "Chua",
-            symbol: {
-                type: "simple-fill",
-                outline: {
-                    color: [255, 0, 0],
-                    width: 1,
-                },
-            },
-        })
-    });
     require([
         "esri/Map",
         "esri/views/MapView",
         "esri/Graphic",
         "esri/layers/GraphicsLayer",
-        "esri/widgets/TimeSlider"
-    ], function (Map, MapView, Graphic, GraphicsLayer, TimeSlider) {
+        "esri/widgets/TimeSlider",
+        "esri/widgets/Expand",
+    ], function (Map, MapView, Graphic, GraphicsLayer, TimeSlider, Expand) {
+        var map = new Map({
+            basemap: "hybrid",
+        });
+        map.on("load", function () {
+            map.graphics.enableMouseEvents();
+        });
+        var view = new MapView({
+            container: "viewDiv",
+            map: map,
+            center: [105.8066925, 15.9030623], //Longitude, latitude
+            zoom: 6,
+        });
+        var data =<%- JSON.stringify(cities) %>
+        var infoCity =<%- JSON.stringify(infoCity) %>
+        var graphicsLayer1 = new GraphicsLayer();
+        
+        var graphicsLayer = new GraphicsLayer();
         var createGraphic = function (data) {
             return new Graphic({
                 geometry: data,
@@ -55,106 +32,87 @@
                 popupTemplate: data.popupTemplate,
             });
         };
-        var graphicsLayer = new GraphicsLayer();
-        var graphicsLayer2 =  new GraphicsLayer();
-        jsondata.polygons.forEach(function (data) {
-            graphicsLayer.add(createGraphic(data));
+        var color = [];
+        var jsondata = {
+            polygons: []
+        };
+        const infoNote = document.getElementById("infoNote");
+        const legendExpand = new Expand({
+            view: view,
+            content: infoNote,
+            expanded: true
         });
-
-
-        jsondata2.polygons.forEach(function (data) {
-            graphicsLayer2.add(createGraphic(data));
+        view.ui.add(legendExpand, "bottom-left");
+        const statsDivEvent = document.getElementById("statsDivEvent");
+        const infoDiv = document.getElementById("infoDiv");
+        const infoDivExpand = new Expand({
+            view: view,
+            content: infoDiv,
+            expanded: true
         });
-
-
-        var map = new Map({
-            basemap: "topo-vector",
-            layers: [graphicsLayer]
+        view.ui.add(infoDivExpand, "top-right");
+        timeSlider = new TimeSlider({
+            container: "timeline-city",
+            view: view,
+            fullTimeExtent: {
+                start: new Date(1975, 0, 1),
+                end: new Date(2020, 0, 1)
+            },
+            mode: "cumulative-from-start",
+            playRate: 3000,
+            stops: {
+                interval: {
+                    value: 1,
+                    unit: "years"
+                }
+            }
         });
-        map.on("load", function () {
-            map.graphics.enableMouseEvents();
-        });
-
-        var view = new MapView({
-            container: "viewDiv",
-            map: map,
-            center: [105.8066925, 15.9030623], //Longitude, latitude
-            zoom: 6,
-        });
-          map.add(graphicsLayer);
-
-            timeSlider = new TimeSlider({
-                container: "timeline-city",
-                view: view,
-                fullTimeExtent: {
-                    start: new Date(1975, 0, 1),
-                    end: new Date(2020, 0, 1)
+        console.log(data);
+        function checkCityType(id) {
+            var result = infoCity.find( (data) => data.IDC === id);
+            return result;
+        }
+        // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
+        timeSlider.watch('timeExtent', function (value) {
+            var year = value.end.getFullYear();
+            map.remove(graphicsLayer1);
+            console.log(year);
+            var temp =data.filter((data1) => data1.YEAR <= year);
+            var temp2 = temp.map((data2) => ({
+                type: "polygon",
+                rings: JSON.parse(data2.Location),
+                Name: checkCityType(data2.IDC).Name,
+                Location: "Chua",
+                symbol: {
+                    color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ?  [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
+                    type: "simple-fill",
+                    outline: {
+                        color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ?  [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
+                        width: 1,
+                    },
                 },
-                mode: "cumulative-from-start",
-                playRate: 3000,
-                stops: {
-                    interval: {
-                        value: 10,
-                        unit: "years"
-                    }
+                popupTemplate: {    
+                    title: "{Name}",
+                    content:  checkCityType(data2.IDC).CDesc,
                 }
-            });
-            // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
-            timeSlider.watch('timeExtent', function (value) {
-                var year = value.end.getFullYear();
-                var temp;
-                if (year <= 1985) {
-                    temp = data.filter(city => city.YEAR <= 1985);
-                }
-                else if (year <= 1995) {
-                    temp = data.filter(city => city.YEAR <= 1995);
-                }
-                else if (year <= 2005) {
-                    temp = data.filter(city => city.YEAR <= 2005);
-                }
-                else if (year <= 2015) {
-                    temp = data.filter(city => city.YEAR <= 2015);
-                }
-                else {
-                    temp = data.filter(city => city.YEAR <= 2020);
-                }
-                jsondata.polygons = [];
-                temp.forEach(temp1 => {
-                    jsondata.polygons.push({
-                        type: "polygon",
-                        rings: temp1.Location,
-                        Name: "Chua",
-                        Location: "Chua",
-                        symbol: {
-                            type: "simple-fill",
-                            outline: {
-                                color: [255, 0, 0],
-                                width: 1,
-                            },
-                        },
-                    })
-                })
-                console.log(12345);
-                map.removeAll();
-             /*    map.layers.add(graphicsLayer2);
-                 map.add(graphicsLayer2); */
-
-                 var graphicsLayer1 = new GraphicsLayer();
-                jsondata.polygons.forEach(function (data) {
-                    graphicsLayer1.add(createGraphic(data));
-                });
-                map.layers.add(graphicsLayer1);
-                map.add(graphicsLayer1);
-            });
+                
+            }))
+            graphicsLayer1 = new GraphicsLayer();
+            temp2.forEach((data) => 
+                graphicsLayer1.add(createGraphic(data))
+            );
+            map.add(graphicsLayer1);
+            
+        
+            // var graphicsLayer1 = new GraphicsLayer();
+            // jsondata.polygons.forEach(function (data) {
+            //     graphicsLayer1.add(createGraphic(data));
+            // });
+            // map.add(graphicsLayer1);
         });
+        view.popup.defaultPopupTemplateEnabled = true;
+    });
 </script>
-<div class="dropdown-city">
-    <div class="dropdown-city--main">
-        <h1 class="dropdown-city__title">
-            Danh sách các thành phố
-        </h1>
-    </div>
-</div>
 <div id="timeline-city">
     <!-- <div class="timeline-city--main">
         <div class="timeline-city__year">
@@ -168,10 +126,48 @@
         <input type="range" id="vol" name="vol" min="0" max="50" value=0 class="timeline-city__detail">
     </div> -->
 </div>
-<div class="note">
-    <div class="note--main">
-        <h1 class="note__title">
-            Bảng chú thích
-        </h1>
+<div id="infoDiv" class="esri-widget">
+    <div>
+        <b>BẢNG SỰ KIỆN - NĂM <label id="year_event"></label> </b>
+    </div>
+    <br />
+    <div id="statsDivEvent" class="esri-widget"></div>
+</div>
+<div id="infoNote">
+    <div>
+        <b>BẢNG CHÚ THÍCH</b>
+    </div>
+    <br />
+    <div id="statsDivNote" class="esri-widget">
+        <table class="table_note">
+            <tr>
+                <td
+                    class="note_color"
+                    style="background-color: rgb(255, 255, 1, 0.4)"
+                ></td>
+                <td class="td_note_content">Đô thị loại 1</td>
+            </tr>
+            <tr>
+                <td
+                    class="note_color"
+                    style="background-color: rgb(254, 1, 252, 0.4)"
+                ></td>
+                <td class="td_note_content">Đô thị loại 2</td>
+            </tr>
+            <tr>
+                <td
+                    class="td_note_color"
+                    style="background-color: rgb(255, 0, 0, 0.4)"
+                ></td>
+                <td class="td_note_content">Đô thị loại 3</td>
+            </tr>
+            <tr>
+                <td
+                    class="td_note_color"
+                    style="background-color: rgb(255, 154, 0, 0.4)"
+                ></td>
+                <td class="td_note_content">Đô thị đặc biệt</td>
+            </tr>
+        </table>
     </div>
 </div>
