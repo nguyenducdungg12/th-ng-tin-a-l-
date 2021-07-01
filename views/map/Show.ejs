@@ -4,10 +4,14 @@
         "esri/Map",
         "esri/views/MapView",
         "esri/Graphic",
+        "esri/WebMap",
         "esri/layers/GraphicsLayer",
         "esri/widgets/TimeSlider",
         "esri/widgets/Expand",
-    ], function (Map, MapView, Graphic, GraphicsLayer, TimeSlider, Expand) {
+        "esri/widgets/LayerList",
+        "esri/widgets/BasemapGallery",
+        "esri/widgets/Legend",
+    ], function (Map, MapView, Graphic,WebMap, GraphicsLayer, TimeSlider, Expand, LayerList,BasemapGallery,Legend) {
 
         var divInfo = document.querySelector(".infoDiv-list");
 
@@ -27,7 +31,7 @@
         var data =<%- JSON.stringify(cities) %>
         var infoCity =<%- JSON.stringify(infoCity) %>
         var graphicsLayer1 = new GraphicsLayer();
-        
+
         var graphicsLayer = new GraphicsLayer();
         var createGraphic = function (data) {
             return new Graphic({
@@ -45,9 +49,42 @@
         const legendExpand = new Expand({
             view: view,
             content: infoNote,
-            expanded: true
+            expanded: true,
+            group: "top-left",
         });
-        view.ui.add(legendExpand, "bottom-left");
+        const infoTest = document.getElementById("infoTest");
+        const legendExpand2 = new Expand({
+            view: view,
+            content: infoTest,
+            // expanded: true,
+            group: "top-left",
+        });
+
+        // view.ui.add(
+        //   [
+            // new Expand({
+            //   content: new BasemapGallery({
+            //     view: view
+            //   }),
+            //   view: view,
+            //   expandIconClass: "esri-icon-basemap",
+            //   group: "top-left"
+            // })
+        //   ],
+        //   "top-left"
+        // );
+        const legendExpand3 = new Expand({
+              id: "selectBasemap",
+              content: new BasemapGallery({
+                view: view
+              }),
+              view: view,
+              expandIconClass: "esri-icon-basemap",
+              group: "top-left"
+            })
+
+        view.ui.add(legendExpand3, "bottom-left");
+        view.ui.add([legendExpand, legendExpand2 ], "top-left");
         const statsDivEvent = document.getElementById("statsDivEvent");
         const infoDiv = document.getElementById("infoDiv");
         const infoDivExpand = new Expand({
@@ -60,7 +97,7 @@
             container: "timeline-city",
             view: view,
             fullTimeExtent: {
-                start: new Date(1975, 0, 1),
+                start: new Date(1976, 0, 1),
                 end: new Date(2020, 0, 1)
             },
             mode: "cumulative-from-start",
@@ -76,28 +113,58 @@
             var result = infoCity.find( (data) => data.IDC === id);
             return result;
         }
-        
+
         function renderInfoCity(array){
             let content="";
             array.forEach((item,stt)=>{
-                content+=`<li class="infoDiv-item">
-                <span class="infoDiv-item-nameCity infoDiv-item-custom " data=${stt}>
-                    ${checkCityType(item.IDC).Name}
-                </span>
-            </li>`
+                content+=`
+                <article class="leaderboard__profile infoDiv-item">
+                    <span class=" leaderboard__name" data=${stt}>${checkCityType(item.IDC).Name}</span>
+                </article>`
         })
         return content;
         }
- 
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
         function checkArraySimilar(id, arrays) {
             return arrays.some( (array) => array.IDC === id);
         }
-
+        function renderPopup(id , CDesc, arrays) {
+            var result = arrays.filter( (array) => array.IDC === id);
+            let temp= '';
+            result.forEach( (data) => {
+                temp += `
+                <tr>
+                    <th>${data.YEAR}</th>
+                    <th>${numberWithCommas(data.Area)}</th>
+                    <th>${numberWithCommas(data.Population)}</>
+                    <th>${data.Industry} %</th>
+                </tr>
+                `
+            })
+            let html = `
+                <span>${CDesc}</span>
+                <h4>Bảng thống kê số liệu </h4>
+                <table class: 'table-kg', cellspacing: '0', cellpadding: '00', style: 'border-collapse: collapse;'>
+                    <tr>
+                        <th>Năm</th>
+                        <th>Diện tích</th>
+                        <th>Dân số</th>
+                        <th>Tốc độ phát triển công nghiệp</th>
+                    </tr>
+                    ${temp}
+                </table>
+            ` 
+            return html;
+        }
         // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
         timeSlider.watch('timeExtent', function (value) {
-            var year = value.end.getFullYear();
+            let year = value.end.getFullYear();
             map.remove(graphicsLayer1);
-           
+
             var temp = [];
             for (var i= data.length - 1; i >=0 ; i--) {
                 if( data[i].YEAR <= year && !checkArraySimilar(data[i].IDC, temp))
@@ -110,8 +177,10 @@
                     center : JSON.parse(temp[postion].Location)[0][0],
                     zoom : 10
                 })
-            
+
             })
+
+            let dataYearPopup = data.filter( (data) =>  data.YEAR <= year)
             var temp2 = temp.map((data2) => ({
                 type: "polygon",
                 rings: JSON.parse(data2.Location),
@@ -125,19 +194,19 @@
                         width: 1,
                     },
                 },
-                popupTemplate: {    
+                popupTemplate: {
                     title: "{Name}",
-                    content:  checkCityType(data2.IDC).CDesc,
+                    content: renderPopup(data2.IDC, checkCityType(data2.IDC).CDesc , dataYearPopup),
                 }
-                
+
             }))
             graphicsLayer1 = new GraphicsLayer();
-            temp2.forEach((data) => 
+            temp2.forEach((data) =>
                 graphicsLayer1.add(createGraphic(data))
             );
             map.add(graphicsLayer1);
-            
-        
+
+
             // var graphicsLayer1 = new GraphicsLayer();
             // jsondata.polygons.forEach(function (data) {
             //     graphicsLayer1.add(createGraphic(data));
@@ -145,74 +214,65 @@
             // map.add(graphicsLayer1);
         });
         view.popup.defaultPopupTemplateEnabled = true;
+        //điều chỉnh vị trí tìm kiếm
+        $( document ).ready(function() {
+           $("#selectBasemap_controls_content").parent().parent().parent().css({"bottom": "100px"});
+        //    console.log(x);
+        });
+       
     });
 </script>
-<div id="timeline-city">
-    <!-- <div class="timeline-city--main">
-        <div class="timeline-city__year">
-            <p>1975</p>
-            <p>1985</p>
-            <p>1995</p>
-            <p>2005</p>
-            <p>2015</p>
-            <p>2020</p>
+<div id="viewDiv">
+    <div id="timeline-city"></div>
+    <div id="infoDiv" class="esri-widget">
+        <div id="statsDivEvent" class="esri-widget">
+            <article class="leaderboard ">
+                <header>
+                  <h1 class="leaderboard__title"><span class="leaderboard__title--top">Danh sách các thành phố</span></h1>
+                </header>
+                
+                <main class="leaderboard__profiles infoDiv-list">
+                  <article class="leaderboard__profile">
+                    <span class="leaderboard__name">Hà Nội</span>
+                   </article>
+                </main>
+            </article>
         </div>
-        <input type="range" id="vol" name="vol" min="0" max="50" value=0 class="timeline-city__detail">
-    </div> -->
-</div>
-<div id="infoDiv" class="esri-widget">
-    <div style="text-align: center;">
-        <b>DANH SÁCH CÁC THÀNH PHỐ <label id="year_event"></label> </b>
     </div>
-    <br />
-    <div id="statsDivEvent" class="esri-widget">
-        <ul class="infoDiv-list">
-           <!--  <li class="infoDiv-item">
-                <span class="infoDiv-item-nameCity infoDiv-item-custom">
-                    Thanh pho ho chi minh
-                </span>
-               
-            </li> -->
-            
-            
-        </ul>
+    <div id="infoNote">
+        <div id="statsDivNote" class="esri-widget">
+            <div class="table">
+                <h4 class="table-header"> BẢNG CHÚ THÍCH</h4>
+                <ul class="table-list">
+                    <li class="table-items ">
+                        <div class="table-items-color" style="background-color: rgb(255, 0, 0);"></div>
+                        <span class="table-items-title">Đô thị loại đặc biệt</span>
+                    </li>
+                    <li class="table-items">
+                        <div class="table-items-color" style="background-color: rgb(0, 255, 0);"></div>
+                        <span class="table-items-title">Đô thị loại 1</span>
+                    </li>
+                    <li class="table-items">
+                        <div class="table-items-color" style="background-color: rgb(0, 0, 255);"></div>
+                        <span class="table-items-title">Đô thị loại 2</span>
+                    </li>
+                    <li class="table-items">
+                        <div class="table-items-color" style="background-color:rgb(249, 244, 100);"></div>
+                        <span class="table-items-title">Đô thị loại 3</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-</div>
-<div id="infoNote">
-    <div>
-        <b>BẢNG CHÚ THÍCH</b>
+    <div id="infoTest">
+        <div>
+            <b>BẢNG CHÚ THÍCH</b>
+        </div>
+        <div id="statsDivNote" class="esri-widget">
+            <div class="table">
+                <h4 class="table-header"> bảng test</h4>
+                
+        </div>
     </div>
-    <br />
-    <div id="statsDivNote" class="esri-widget">
-        <table class="table_note">
-            <tr>
-                <td
-                    class="note_color"
-                    style="background-color: rgb(255, 255, 1, 0.4)"
-                ></td>
-                <td class="td_note_content">Đô thị loại 1</td>
-            </tr>
-            <tr>
-                <td
-                    class="note_color"
-                    style="background-color: rgb(254, 1, 252, 0.4)"
-                ></td>
-                <td class="td_note_content">Đô thị loại 2</td>
-            </tr>
-            <tr>
-                <td
-                    class="td_note_color"
-                    style="background-color: rgb(255, 0, 0, 0.4)"
-                ></td>
-                <td class="td_note_content">Đô thị loại 3</td>
-            </tr>
-            <tr>
-                <td
-                    class="td_note_color"
-                    style="background-color: rgb(255, 154, 0, 0.4)"
-                ></td>
-                <td class="td_note_content">Đô thị đặc biệt</td>
-            </tr>
-        </table>
-    </div>
+    
 </div>
