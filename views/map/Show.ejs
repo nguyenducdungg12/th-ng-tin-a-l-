@@ -1,45 +1,4 @@
-<!-- <script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<!-- <script src="/vendor/jquery-easing/jquery.easing.min.js"></script> -->
-
 <script>
-    var data =<%- JSON.stringify(cities) %>
-    var jsondata = {
-        polygons: []
-    };
-    var jsondata2 = {
-        polygons: []
-    };
-    data.filter(city => city.YEAR <= 2015).forEach(temp1 => {
-        jsondata.polygons.push({
-            type: "polygon",
-            rings: JSON.parse(temp1.Location),
-            Name: "Chua",
-            Location: "Chua",
-            symbol: {
-                type: "simple-fill",
-                outline: {
-                    color: [255, 0, 0],
-                    width: 1,
-                },
-            },
-        })
-    });
-    data.filter(city => city.YEAR <= 1976).forEach(temp1 => {
-        jsondata2.polygons.push({
-            type: "polygon",
-            rings: JSON.parse(temp1.Location),
-            Name: "Chua",
-            Location: "Chua",
-            symbol: {
-                type: "simple-fill",
-                outline: {
-                    color: [255, 0, 0],
-                    width: 1,
-                },
-            },
-        })
-    });
     require([
         "esri/Map",
         "esri/views/MapView",
@@ -48,28 +7,23 @@
         "esri/widgets/TimeSlider",
         "esri/widgets/Expand",
     ], function (Map, MapView, Graphic, GraphicsLayer, TimeSlider, Expand) {
-
         var map = new Map({
             basemap: "hybrid",
         });
-
         map.on("load", function () {
             map.graphics.enableMouseEvents();
         });
-
         var view = new MapView({
             container: "viewDiv",
             map: map,
             center: [105.8066925, 15.9030623], //Longitude, latitude
             zoom: 6,
         });
-
         var data =<%- JSON.stringify(cities) %>
         var infoCity =<%- JSON.stringify(infoCity) %>
         var graphicsLayer1 = new GraphicsLayer();
         
         var graphicsLayer = new GraphicsLayer();
-
         var createGraphic = function (data) {
             return new Graphic({
                 geometry: data,
@@ -82,21 +36,21 @@
         var jsondata = {
             polygons: []
         };
-
-
-        jsondata2.polygons.forEach(function (data) {
-            graphicsLayer2.add(createGraphic(data));
+        const infoNote = document.getElementById("infoNote");
+        const legendExpand = new Expand({
+            view: view,
+            content: infoNote,
+            expanded: true
         });
-
-
-        var map = new Map({
-            basemap: "topo-vector",
-            layers: [graphicsLayer]
+        view.ui.add(legendExpand, "bottom-left");
+        const statsDivEvent = document.getElementById("statsDivEvent");
+        const infoDiv = document.getElementById("infoDiv");
+        const infoDivExpand = new Expand({
+            view: view,
+            content: infoDiv,
+            expanded: true
         });
-        map.on("load", function () {
-            map.graphics.enableMouseEvents();
-        });
-
+        view.ui.add(infoDivExpand, "top-right");
         timeSlider = new TimeSlider({
             container: "timeline-city",
             view: view,
@@ -114,12 +68,10 @@
             }
         });
         console.log(data);
-
         function checkCityType(id) {
             var result = infoCity.find( (data) => data.IDC === id);
             return result;
         }
-
         // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
         timeSlider.watch('timeExtent', function (value) {
             var year = value.end.getFullYear();
@@ -161,13 +113,6 @@
         view.popup.defaultPopupTemplateEnabled = true;
     });
 </script>
-<div class="dropdown-city">
-    <div class="dropdown-city--main">
-        <h1 class="dropdown-city__title">
-            Danh sách các thành phố
-        </h1>
-    </div>
-</div>
 <div id="timeline-city">
     <!-- <div class="timeline-city--main">
         <div class="timeline-city__year">
