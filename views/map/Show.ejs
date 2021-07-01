@@ -7,8 +7,26 @@
     var jsondata = {
         polygons: []
     };
-    data.filter(city => city.YEAR >= 1985 && city.YEAR < 1995).forEach(temp1 => {
+    var jsondata2 = {
+        polygons: []
+    };
+    data.filter(city => city.YEAR <= 2015).forEach(temp1 => {
         jsondata.polygons.push({
+            type: "polygon",
+            rings: JSON.parse(temp1.Location),
+            Name: "Chua",
+            Location: "Chua",
+            symbol: {
+                type: "simple-fill",
+                outline: {
+                    color: [255, 0, 0],
+                    width: 1,
+                },
+            },
+        })
+    });
+    data.filter(city => city.YEAR <= 1976).forEach(temp1 => {
+        jsondata2.polygons.push({
             type: "polygon",
             rings: JSON.parse(temp1.Location),
             Name: "Chua",
@@ -38,16 +56,21 @@
             });
         };
         var graphicsLayer = new GraphicsLayer();
-
+        var graphicsLayer2 =  new GraphicsLayer();
         jsondata.polygons.forEach(function (data) {
             graphicsLayer.add(createGraphic(data));
         });
 
-        var map = new Map({
-            basemap: "topo-vector",
-            layers:[graphicsLayer]
+
+        jsondata2.polygons.forEach(function (data) {
+            graphicsLayer2.add(createGraphic(data));
         });
 
+
+        var map = new Map({
+            basemap: "topo-vector",
+            layers: [graphicsLayer]
+        });
         map.on("load", function () {
             map.graphics.enableMouseEvents();
         });
@@ -58,11 +81,8 @@
             center: [105.8066925, 15.9030623], //Longitude, latitude
             zoom: 6,
         });
+          map.add(graphicsLayer);
 
-        let layerView;
-
-        view.whenLayerView(graphicsLayer).then((lv) => {
-            layerView = lv;
             timeSlider = new TimeSlider({
                 container: "timeline-city",
                 view: view,
@@ -71,10 +91,10 @@
                     end: new Date(2020, 0, 1)
                 },
                 mode: "cumulative-from-start",
-                playRate: 2000,
+                playRate: 3000,
                 stops: {
                     interval: {
-                        value: 5,
+                        value: 10,
                         unit: "years"
                     }
                 }
@@ -83,24 +103,22 @@
             timeSlider.watch('timeExtent', function (value) {
                 var year = value.end.getFullYear();
                 var temp;
-                if (year > 1975 && year <= 1985) {
-                    temp = data.filter(city => city.YEAR >= 1985 && city.YEAR < 1995);
+                if (year <= 1985) {
+                    temp = data.filter(city => city.YEAR <= 1985);
                 }
-                else if (year > 1985 && year <= 1995) {
-                    temp = data.filter(city => city.YEAR >= 1995 && city.YEAR < 2005);
+                else if (year <= 1995) {
+                    temp = data.filter(city => city.YEAR <= 1995);
                 }
-                else if (year > 1995 && year <= 2005) {
-                    temp = data.filter(city => city.YEAR >= 2005 && city.YEAR < 2015);
+                else if (year <= 2005) {
+                    temp = data.filter(city => city.YEAR <= 2005);
                 }
-                else if (year > 2005 && year <= 2015) {
-                    temp = data.filter(city => city.YEAR >= 2015 && city.YEAR < 2020);
-                }
-                else if (year > 2015 && year <= 2020) {
-                    temp = data.filter(city => city.YEAR >= 2020);
+                else if (year <= 2015) {
+                    temp = data.filter(city => city.YEAR <= 2015);
                 }
                 else {
-                    temp = data.filter(city => city.YEAR >= 1975 && city.YEAR < 1985);
+                    temp = data.filter(city => city.YEAR <= 2020);
                 }
+                jsondata.polygons = [];
                 temp.forEach(temp1 => {
                     jsondata.polygons.push({
                         type: "polygon",
@@ -116,10 +134,19 @@
                         },
                     })
                 })
+                console.log(12345);
+                map.removeAll();
+             /*    map.layers.add(graphicsLayer2);
+                 map.add(graphicsLayer2); */
+
+                 var graphicsLayer1 = new GraphicsLayer();
+                jsondata.polygons.forEach(function (data) {
+                    graphicsLayer1.add(createGraphic(data));
+                });
+                map.layers.add(graphicsLayer1);
+                map.add(graphicsLayer1);
             });
         });
-        map.add(graphicsLayer);
-    });
 </script>
 <div class="dropdown-city">
     <div class="dropdown-city--main">
