@@ -93,7 +93,6 @@
         timeSlider.watch('timeExtent', function (value) {
             var year = value.end.getFullYear();
             map.remove(graphicsLayer1);
-            console.log(year);
             var temp = [];
             for (var i= data.length - 1; i >=0 ; i--) {
                 if( data[i].YEAR <= year && !checkArraySimilar(data[i].IDC, temp))
