@@ -1,4 +1,5 @@
 <script>
+
     require([
         "esri/Map",
         "esri/views/MapView",
@@ -7,6 +8,10 @@
         "esri/widgets/TimeSlider",
         "esri/widgets/Expand",
     ], function (Map, MapView, Graphic, GraphicsLayer, TimeSlider, Expand) {
+
+        var divInfo = document.querySelector(".infoDiv-list");
+
+
         var map = new Map({
             basemap: "hybrid",
         });
@@ -67,17 +72,37 @@
                 }
             }
         });
-        console.log(data);
         function checkCityType(id) {
             var result = infoCity.find( (data) => data.IDC === id);
             return result;
         }
+        
+        function renderInfoCity(array){
+            let content="";
+            array.forEach((item,stt)=>{
+                content+=`<li class="infoDiv-item">
+                <span class="infoDiv-item-nameCity infoDiv-item-custom " data=${stt}>
+                    ${checkCityType(item.IDC).Name}
+                </span>
+            </li>`
+        })
+        return content;
+        }
+ 
         // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
         timeSlider.watch('timeExtent', function (value) {
             var year = value.end.getFullYear();
             map.remove(graphicsLayer1);
-            console.log(year);
             var temp =data.filter((data1) => data1.YEAR <= year);
+            divInfo.innerHTML = renderInfoCity(temp);
+            $(".infoDiv-item").click(function(){
+                const postion = this.children[0].getAttribute("data");
+                view.goTo({
+                    center : JSON.parse(temp[postion].Location)[0][0],
+                    zoom : 10
+                })
+            
+            })
             var temp2 = temp.map((data2) => ({
                 type: "polygon",
                 rings: JSON.parse(data2.Location),
@@ -127,11 +152,22 @@
     </div> -->
 </div>
 <div id="infoDiv" class="esri-widget">
-    <div>
-        <b>BẢNG SỰ KIỆN - NĂM <label id="year_event"></label> </b>
+    <div style="text-align: center;">
+        <b>DANH SÁCH CÁC THÀNH PHỐ <label id="year_event"></label> </b>
     </div>
     <br />
-    <div id="statsDivEvent" class="esri-widget"></div>
+    <div id="statsDivEvent" class="esri-widget">
+        <ul class="infoDiv-list">
+           <!--  <li class="infoDiv-item">
+                <span class="infoDiv-item-nameCity infoDiv-item-custom">
+                    Thanh pho ho chi minh
+                </span>
+               
+            </li> -->
+            
+            
+        </ul>
+    </div>
 </div>
 <div id="infoNote">
     <div>
