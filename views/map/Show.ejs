@@ -29,9 +29,11 @@
 
         var data =<%- JSON.stringify(cities) %>
 
-        var graphicsLayer = new GraphicsLayer();
+       
         var graphicsLayer1 = new GraphicsLayer();
         
+        var graphicsLayer = new GraphicsLayer();
+
         var createGraphic = function (data) {
             return new Graphic({
                 geometry: data,
@@ -112,14 +114,15 @@
                     },
                 },
             }))
+            graphicsLayer1 = new GraphicsLayer();
             temp2.forEach(function (data) {
                 graphicsLayer1.add(createGraphic(data));
             });
             // map.remove(graphicsLayer);
             map.add(graphicsLayer1);
             console.log(temp2);
-
             
+
             // var graphicsLayer1 = new GraphicsLayer();
             // jsondata.polygons.forEach(function (data) {
             //     graphicsLayer1.add(createGraphic(data));
@@ -142,10 +145,11 @@
     </div> -->
 </div>
 <div id="infoDiv" class="esri-widget">
-    <div><b>BẢNG SỰ KIỆN - NĂM <label id="year_event"></label> </b></div>
-    <br />
-    <div id="statsDivEvent" class="esri-widget">
+    <div>
+        <b>BẢNG SỰ KIỆN - NĂM <label id="year_event"></label> </b>
     </div>
+    <br />
+    <div id="statsDivEvent" class="esri-widget"></div>
 </div>
 <div id="infoNote">
     <div>
@@ -155,22 +159,33 @@
     <div id="statsDivNote" class="esri-widget">
         <table class="table_note">
             <tr>
-                <td class="note_color" style="background-color:rgb(255, 255, 1, 0.4)"></td>
+                <td
+                    class="note_color"
+                    style="background-color: rgb(255, 255, 1, 0.4)"
+                ></td>
                 <td class="td_note_content">Đô thị loại 1</td>
             </tr>
             <tr>
-                <td class="note_color" style="background-color:rgb( 254, 1, 252, 0.4)"></td>
+                <td
+                    class="note_color"
+                    style="background-color: rgb(254, 1, 252, 0.4)"
+                ></td>
                 <td class="td_note_content">Đô thị loại 2</td>
             </tr>
             <tr>
-                <td class="td_note_color" style="background-color: rgb(255, 0, 0, 0.4)"></td>
+                <td
+                    class="td_note_color"
+                    style="background-color: rgb(255, 0, 0, 0.4)"
+                ></td>
                 <td class="td_note_content">Đô thị loại 3</td>
             </tr>
             <tr>
-                <td class="td_note_color" style="background-color: rgb(255, 154, 0, 0.4)"></td>
+                <td
+                    class="td_note_color"
+                    style="background-color: rgb(255, 154, 0, 0.4)"
+                ></td>
                 <td class="td_note_content">Đô thị đặc biệt</td>
             </tr>
-
         </table>
     </div>
 </div>
