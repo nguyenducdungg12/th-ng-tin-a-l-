@@ -96,7 +96,7 @@
         // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
         timeSlider.watch('timeExtent', function (value) {
             var year = value.end.getFullYear();
-            map.remove(graphicsLayer1)
+            map.removeAll();
             console.log(year);
             var temp =data.filter((data1) => data1.YEAR <= year);
             var temp2 = temp.map((data2) => ({
