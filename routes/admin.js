@@ -31,4 +31,11 @@ router.get("/region/update/:id",RegionController.getUpdateCity);
 router.post("/region/update/:id",RegionController.postUpdateCity);
 router.post("/region/delete/:id",RegionController.deleteCity);
 router.post("/region/create",RegionController.createRegion);
+// LOGIn
+router.get("/login",function(req,res){
+    res.render("admin/Login/Login",{layout:"admin/Layout/Layoutlogin"});
+})
+
 module.exports = router;
+
+

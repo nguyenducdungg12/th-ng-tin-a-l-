@@ -2,7 +2,33 @@
     var data =<%- JSON.stringify(cities) %>
     var infoCity =<%- JSON.stringify(infoCity) %>
     var dataAnalyst =<%- JSON.stringify(dataAnalytic) %>
-    console.log(data);
-    console.log(infoCity);
-    console.log(dataAnalyst);
+    var dothi1=[];
+    var dothi2=[];
+    var dothi3=[];
+    
+    // Nếu dân số tăng cao từ 10% =>cao 5%=> vừa <5% thấp
+    // Nếu tỉ lệ kinh tế từ 3->2 =6% 2->1 8%
+    // Dự đoán diện tích đất đai
 </script>
+<div class="statistical">
+    <div class="statistical__analytis">
+        <table>
+            <tr class="statistical__analytis__heading">
+                <th>Thành phố</th>
+                <th>Loại đô thị</th>
+                <th>Dự đoán</th>
+                <th>Hướng phát triển</th>
+            </tr>
+            <% infoCity.forEach(function(city){ %>
+                <tr>
+                    <th>
+                        <%=city.Name%>
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            <% }) %>
+        </table>
+    </div>
+</div>

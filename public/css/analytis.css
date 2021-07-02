@@ -1,12 +1,10 @@
-
 /* Hiệu ứng load trang */
 
-
-body{
+body {
 	overflow: hidden;
 }
 
-.loader{
+.loader {
 	width: 100%;
 	height: 100%;
 	background: #00b8ff;
@@ -17,35 +15,83 @@ body{
 	display: block;
 	overflow: hidden;
 }
-.icon{
+.icon {
 	font-size: 80px;
 	color: #fff;
-	position: absolute; 
+	position: absolute;
 	top: 50%;
 	left: 50%;
 	margin-top: -40px;
 	margin-left: -40px;
 }
-.xoay{
+.xoay {
 	animation: xoay 1.5s linear infinite;
 	-moz-animation: xoay 1.5s linear infinite;
 	-ms-animation: xoay 1.5s linear infinite;
 	-o-animation: xoay 1.5s linear infinite;
 	-webkit-animation: xoay 1.5s linear infinite;
 }
-@-webkit-keyframes xoay{
-	from{
-		-ms-transform:rotate(0deg);
+@-webkit-keyframes xoay {
+	from {
+		-ms-transform: rotate(0deg);
 		-moz-transform: rotate(0deg);
 		-o-transform: rotate(0deg);
 		-webkit-transform: rotate(0deg);
 		transform: rotate(0deg);
 	}
-	to{
-		-ms-transform:rotate(360deg);
+	to {
+		-ms-transform: rotate(360deg);
 		-moz-transform: rotate(360deg);
 		-o-transform: rotate(360deg);
 		-webkit-transform: rotate(360deg);
 		transform: rotate(360deg);
 	}
+}
+
+.statistical {
+	background-image: url("https://www.mwallpapers.com/photos/celebrities/hd-wallpapers/simple-background-digital-art-textured-texture-android-iphone-hd-wallpaper-background-downloadhd-wallpapers-desktop-background-android-iphone-1080p-4k-glzox.jpg?v=1615867565");
+	width: 100%;
+	height: 90%;
+	position: relative;
+}
+
+.header--analytis{
+	height: 10vh;
+}
+
+table{
+	width: 100%;
+}
+th,td{
+	width: 25%;
+	padding: 20px;
+}
+
+.statistical__analytis__heading{
+	background-color: #333;
+	color:white;
+	position: sticky;
+	top:0;
+	left:0;
+	z-index: 2;
+
+}
+
+.statistical__analytis {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 1350px;
+	height: 600px;
+	background-color: white;
+	overflow: auto;
+}
+
+.statistical__analytis__list{
+	display: flex;
+}
+
+.statistical__analytis__item{
+	border-right:1px solid black;
 }
