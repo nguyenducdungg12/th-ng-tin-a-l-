@@ -186,7 +186,8 @@
                 })
 
             })
-            if(IDC!=-1){
+            if(IDC!=-1&&IDC){
+                console.log(1234);
                 document.querySelectorAll(".static-item").forEach(item=>{
                     if(IDC==item.getAttribute("idc")){
                         IDPo = item.getAttribute("value");
@@ -221,6 +222,7 @@
                 });
             }
             $(".StaticSelect").change(function(e){ 
+                console.log(1234);
                  IDPo = $(this).val();
                  IDC = $(this).children("option:selected")[0].getAttribute("idc");
                 $.get(`/admin/getDataAnalytic/${IDPo}`,function(result){
