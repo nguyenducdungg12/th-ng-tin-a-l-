@@ -35,15 +35,16 @@ router.post("/region/create",RegionController.createRegion);
 
 //dataAnalytic
 
-router.post("/getDataAnalytic",(req,res)=>{
-    const {IDPo} = req.body;
-    console.log(req.body)
+router.get("/getDataAnalytic/:IDPo",(req,res)=>{
+    const {IDPo} =req.params;
+    console.log(req.params);
     DataAnalytis.findOne({
         where : {
             IDPo : IDPo,
     },raw : true}
-    ).then(res=>{
-        res.json(res);
+    ).then(result=>{
+        console.log(result);
+        res.json(result);
     })
 })
 

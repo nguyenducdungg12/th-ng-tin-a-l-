@@ -15,6 +15,8 @@
         "esri/widgets/Legend",
     ], function (Map, MapView, Graphic, WebMap, GraphicsLayer, TimeSlider, Expand, LayerList, BasemapGallery, Legend) {
 
+        var IDPo,IDC;
+
         Chart.defaults.global.defaultFontColor = '#d1d1d1'; 
          const chartCanvas = document.getElementById("dataChart");
  
@@ -128,10 +130,10 @@
             return arrays.some((array) => array.IDC === id);
         }
         function renderOption(arr){
-            let content = "<option selected>Chọn thành phố </option>";
+            let content = "<option selected IDC=-1>Chọn thành phố </option>";
             arr.forEach((item, stt) => {
                 content += `
-                <option clas="static-item" value=${item.IDPo}>${checkCityType(item.IDC).Name}</option>
+                <option class="static-item" value=${item.IDPo} IDC=${item.IDC} ${IDC==item.IDC ? "selected" : ""} >${checkCityType(item.IDC).Name}</option>
                 </option>`
             })
             return content;
@@ -184,10 +186,68 @@
                 })
 
             })
-            $(".StaticSelect").change(function(){
-                const IDPo = $(this).val();
-                $.post("/admin/getDataAnalytic",{IDPo},function(result){
-                       console.log(result);
+            if(IDC!=-1){
+                document.querySelectorAll(".static-item").forEach(item=>{
+                    if(IDC==item.getAttribute("idc")){
+                        IDPo = item.getAttribute("value");
+                        
+                    }
+                })
+                $.get(`/admin/getDataAnalytic/${IDPo}`,function(result){
+                    if(!result){
+                        return;
+                    }
+                    console.log(firesChart.data.datasets);
+                    firesChart.data.labels = [year];
+                    dataUpdate = [
+                                   {
+                                        label: "Tốc độ mở rộng diện tích",
+                                        backgroundColor: "rgb(255,0,0)",
+                                        data:[result.AVGAcr]
+                                    },
+                                    {
+                                        label: "Tốc độ phát triển dân số",
+                                        backgroundColor: "rgb(0,255,0)",
+                                        data:[result.DPop]
+                                    },
+                                    {
+                                        label: "Tốc độ phát triển kinh tế",
+                                        backgroundColor: "rgb(0,0,255)",
+                                        data:[result.llcreate]
+                                    }
+                              ]
+                        firesChart.data.datasets = dataUpdate;
+                        firesChart.update();
+                });
+            }
+            $(".StaticSelect").change(function(e){ 
+                 IDPo = $(this).val();
+                 IDC = $(this).children("option:selected")[0].getAttribute("idc");
+                $.get(`/admin/getDataAnalytic/${IDPo}`,function(result){
+                    if(!result){
+                        return;
+                    }
+                    firesChart.data.labels = [year];
+                    dataUpdate = [
+                                   {
+                                        label: "Tốc độ mở rộng diện tích",
+                                        backgroundColor: "rgb(255,0,0)",
+                                        data:[result.AVGAcr]
+                                    },
+                                    {
+                                        label: "Tốc độ mở rộng diện tích",
+                                        backgroundColor: "rgb(0,255,0)",
+                                        data:[result.DPop]
+                                    },
+                                    {
+                                        label: "Tốc độ mở rộng diện tích",
+                                        backgroundColor: "rgb(0,0,255)",
+                                        data:[result.llcreate]
+                                    }
+                              ]
+                        firesChart.data.datasets = dataUpdate;
+                        firesChart.update();
+                   
                 });
             })
             let dataYearPopup = data.filter((data) => data.YEAR <= year)
@@ -216,7 +276,7 @@
             );
             map.add(graphicsLayer1);
 
-
+        
             // var graphicsLayer1 = new GraphicsLayer();
             // jsondata.polygons.forEach(function (data) {
             //     graphicsLayer1.add(createGraphic(data));
@@ -228,26 +288,21 @@
 
 
             // config chartjs 
-           /*  firesChart = new Chart(chartCanvas.getContext("2d"), {
-            type: "bar",
-            data: {
-              labels: 2017,
-              datasets: [{
-                label: "Tốc độ mở rộng diện tích",
-                backgroundColor: "rgb(255,0,0)",
-                data: [0,0,0,0,0]
-              },
-              {
-                label: "Tốc độ gia tăng dân số",
-                backgroundColor: "rgb(0,0,255)",
-                data: [0,0,0,0,0]
-              },{
-                label: "Tốc độ phát triển kinh tế",
-                backgroundColor: "rgb(0,255,0)",
-                data: [0,0,0,0,0]
-              }
-            ],              
-            }}); */
+              firesChart = new Chart(chartCanvas.getContext("2d"), {    
+                                type: "bar",
+                                options: {
+                                responsive: true,
+                                plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Bảng thống kê'
+                                }
+                                }
+                            },
+                            });
        
         });
         view.popup.defaultPopupTemplateEnabled = true;

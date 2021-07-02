@@ -13,4 +13,6 @@ const DataAnalytisModel = sequelize.define('Data_Analytis', {
     timestamps: false
 });
 DataAnalytisModel.hasOne(CityYearPolygon,{foreignKey:"IDPo"});
+CityYearPolygon.hasOne(DataAnalytisModel,{foreignKey:"IDPo"});
+
 module.exports = DataAnalytisModel;
