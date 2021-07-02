@@ -3,6 +3,7 @@ var router = express.Router();
 const cityController=require('./../controller/CityController');
 const CityYearPolygonController = require('./../controller/CityYearPolygonController');
 const RegionController = require('./../controller/RegionController');
+const DataAnalytis = require('./../model/DataAnalytis');
 const City = require('../model/City');
 router.get("/",cityController.getDashBoard);
 // City
@@ -31,4 +32,19 @@ router.get("/region/update/:id",RegionController.getUpdateCity);
 router.post("/region/update/:id",RegionController.postUpdateCity);
 router.post("/region/delete/:id",RegionController.deleteCity);
 router.post("/region/create",RegionController.createRegion);
+
+//dataAnalytic
+
+router.post("/getDataAnalytic",(req,res)=>{
+    const {IDPo} = req.body;
+    console.log(req.body)
+    DataAnalytis.findOne({
+        where : {
+            IDPo : IDPo,
+    },raw : true}
+    ).then(res=>{
+        res.json(res);
+    })
+})
+
 module.exports = router;

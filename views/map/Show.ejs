@@ -1,3 +1,5 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
 <script>
 
     require([
@@ -11,10 +13,14 @@
         "esri/widgets/LayerList",
         "esri/widgets/BasemapGallery",
         "esri/widgets/Legend",
-    ], function (Map, MapView, Graphic,WebMap, GraphicsLayer, TimeSlider, Expand, LayerList,BasemapGallery,Legend) {
+    ], function (Map, MapView, Graphic, WebMap, GraphicsLayer, TimeSlider, Expand, LayerList, BasemapGallery, Legend) {
 
+        Chart.defaults.global.defaultFontColor = '#d1d1d1'; 
+         const chartCanvas = document.getElementById("dataChart");
+ 
         var divInfo = document.querySelector(".infoDiv-list");
 
+        var infoSelected = document.querySelector(".StaticSelect");
 
         var map = new Map({
             basemap: "hybrid",
@@ -52,47 +58,36 @@
             expanded: true,
             group: "top-left",
         });
-        const infoTest = document.getElementById("infoTest");
+        const infoStatic = document.getElementById("infoStatic");
         const legendExpand2 = new Expand({
             view: view,
-            content: infoTest,
+            content: infoStatic,
             // expanded: true,
-            group: "top-left",
-        });
+            group: "top-right",
+            expandIconClass: "esri-icon-basemap",
 
-        // view.ui.add(
-        //   [
-            // new Expand({
-            //   content: new BasemapGallery({
-            //     view: view
-            //   }),
-            //   view: view,
-            //   expandIconClass: "esri-icon-basemap",
-            //   group: "top-left"
-            // })
-        //   ],
-        //   "top-left"
-        // );
+        });
         const legendExpand3 = new Expand({
-              id: "selectBasemap",
-              content: new BasemapGallery({
+            id: "selectBasemap",
+            content: new BasemapGallery({
                 view: view
-              }),
-              view: view,
-              expandIconClass: "esri-icon-basemap",
-              group: "top-left"
-            })
+            }),
+            view: view,
+            group: "top-left"
+        })
 
         view.ui.add(legendExpand3, "bottom-left");
-        view.ui.add([legendExpand, legendExpand2 ], "top-left");
+        view.ui.add(legendExpand, "top-left");
         const statsDivEvent = document.getElementById("statsDivEvent");
         const infoDiv = document.getElementById("infoDiv");
         const infoDivExpand = new Expand({
             view: view,
             content: infoDiv,
-            expanded: true
+            expanded: true,
+            group: "top-right",
+
         });
-        view.ui.add(infoDivExpand, "top-right");
+        view.ui.add([infoDivExpand, legendExpand2], "top-right");
         timeSlider = new TimeSlider({
             container: "timeline-city",
             view: view,
@@ -110,19 +105,19 @@
             }
         });
         function checkCityType(id) {
-            var result = infoCity.find( (data) => data.IDC === id);
+            var result = infoCity.find((data) => data.IDC === id);
             return result;
         }
 
-        function renderInfoCity(array){
-            let content="";
-            array.forEach((item,stt)=>{
-                content+=`
+        function renderInfoCity(array) {
+            let content = "";
+            array.forEach((item, stt) => {
+                content += `
                 <article class="leaderboard__profile infoDiv-item">
                     <span class=" leaderboard__name" data=${stt}>${checkCityType(item.IDC).Name}</span>
                 </article>`
-        })
-        return content;
+            })
+            return content;
         }
 
         function numberWithCommas(x) {
@@ -130,12 +125,21 @@
         }
 
         function checkArraySimilar(id, arrays) {
-            return arrays.some( (array) => array.IDC === id);
+            return arrays.some((array) => array.IDC === id);
         }
-        function renderPopup(id , CDesc, arrays) {
-            var result = arrays.filter( (array) => array.IDC === id);
-            let temp= '';
-            result.forEach( (data) => {
+        function renderOption(arr){
+            let content = "<option selected>Chọn thành phố </option>";
+            arr.forEach((item, stt) => {
+                content += `
+                <option clas="static-item" value=${item.IDPo}>${checkCityType(item.IDC).Name}</option>
+                </option>`
+            })
+            return content;
+        }
+        function renderPopup(id, CDesc, arrays) {
+            var result = arrays.filter((array) => array.IDC === id);
+            let temp = '';
+            result.forEach((data) => {
                 temp += `
                 <tr>
                     <th>${data.YEAR}</th>
@@ -157,7 +161,7 @@
                     </tr>
                     ${temp}
                 </table>
-            ` 
+            `
             return html;
         }
         // update layer view filter to reflect current timeExtent, all protests in layer up to timeExtend
@@ -166,37 +170,43 @@
             map.remove(graphicsLayer1);
 
             var temp = [];
-            for (var i= data.length - 1; i >=0 ; i--) {
-                if( data[i].YEAR <= year && !checkArraySimilar(data[i].IDC, temp))
+            for (var i = data.length - 1; i >= 0; i--) {
+                if (data[i].YEAR <= year && !checkArraySimilar(data[i].IDC, temp))
                     temp.push(data[i]);
             }
             divInfo.innerHTML = renderInfoCity(temp);
-            $(".infoDiv-item").click(function(){
+            infoSelected.innerHTML = renderOption(temp);
+            $(".infoDiv-item").click(function () {
                 const postion = this.children[0].getAttribute("data");
                 view.goTo({
-                    center : JSON.parse(temp[postion].Location)[0][0],
-                    zoom : 10
+                    center: JSON.parse(temp[postion].Location)[0][0],
+                    zoom: 10
                 })
 
             })
-
-            let dataYearPopup = data.filter( (data) =>  data.YEAR <= year)
+            $(".StaticSelect").change(function(){
+                const IDPo = $(this).val();
+                $.post("/admin/getDataAnalytic",{IDPo},function(result){
+                       console.log(result);
+                });
+            })
+            let dataYearPopup = data.filter((data) => data.YEAR <= year)
             var temp2 = temp.map((data2) => ({
                 type: "polygon",
                 rings: JSON.parse(data2.Location),
                 Name: checkCityType(data2.IDC).Name,
                 Location: "Chua",
                 symbol: {
-                    color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ?  [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
+                    color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ? [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
                     type: "simple-fill",
                     outline: {
-                        color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ?  [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
+                        color: data2.CityType === 0 ? [255, 0, 0] : data2.CityType === 1 ? [0, 255, 0] : data2.CityType === 2 ? [0, 0, 255] : [249, 244, 100],
                         width: 1,
                     },
                 },
                 popupTemplate: {
                     title: "{Name}",
-                    content: renderPopup(data2.IDC, checkCityType(data2.IDC).CDesc , dataYearPopup),
+                    content: renderPopup(data2.IDC, checkCityType(data2.IDC).CDesc, dataYearPopup),
                 }
 
             }))
@@ -212,14 +222,41 @@
             //     graphicsLayer1.add(createGraphic(data));
             // });
             // map.add(graphicsLayer1);
+
+            //load data to select
+
+
+
+            // config chartjs 
+           /*  firesChart = new Chart(chartCanvas.getContext("2d"), {
+            type: "bar",
+            data: {
+              labels: 2017,
+              datasets: [{
+                label: "Tốc độ mở rộng diện tích",
+                backgroundColor: "rgb(255,0,0)",
+                data: [0,0,0,0,0]
+              },
+              {
+                label: "Tốc độ gia tăng dân số",
+                backgroundColor: "rgb(0,0,255)",
+                data: [0,0,0,0,0]
+              },{
+                label: "Tốc độ phát triển kinh tế",
+                backgroundColor: "rgb(0,255,0)",
+                data: [0,0,0,0,0]
+              }
+            ],              
+            }}); */
+       
         });
         view.popup.defaultPopupTemplateEnabled = true;
         //điều chỉnh vị trí tìm kiếm
-        $( document ).ready(function() {
-           $("#selectBasemap_controls_content").parent().parent().parent().css({"bottom": "100px"});
-        //    console.log(x);
+        $(document).ready(function () {
+            $("#selectBasemap_controls_content").parent().parent().parent().css({ "bottom": "100px" });
+            //    console.log(x);
         });
-       
+
     });
 </script>
 <div id="viewDiv">
@@ -228,13 +265,14 @@
         <div id="statsDivEvent" class="esri-widget">
             <article class="leaderboard ">
                 <header>
-                  <h1 class="leaderboard__title"><span class="leaderboard__title--top">Danh sách các thành phố</span></h1>
+                    <h1 class="leaderboard__title"><span class="leaderboard__title--top">Danh sách các thành phố</span>
+                    </h1>
                 </header>
-                
+
                 <main class="leaderboard__profiles infoDiv-list">
-                  <article class="leaderboard__profile">
-                    <span class="leaderboard__name">Hà Nội</span>
-                   </article>
+                    <article class="leaderboard__profile">
+                        <span class="leaderboard__name">Hà Nội</span>
+                    </article>
                 </main>
             </article>
         </div>
@@ -264,15 +302,19 @@
             </div>
         </div>
     </div>
-    <div id="infoTest">
-        <div>
-            <b>BẢNG CHÚ THÍCH</b>
-        </div>
-        <div id="statsDivNote" class="esri-widget">
-            <div class="table">
-                <h4 class="table-header"> bảng test</h4>
-                
+    <div id="infoStatic">
+        <div id="statsDivEvent" class="esri-widget">
+            <article class="leaderboard " style="width: 500px;">
+                <header>
+                    <h1 class="leaderboard__title"><span class="leaderboard__title--top">Bảng Phân Tích</span></h1>
+                </header>
+                <select class="form-select mt-3 StaticSelect" aria-label="Default select example">
+                </select>
+                <main class="leaderboard__profiles infoStatic-wrap">
+                    <canvas id="dataChart" height="250" width="300" class="esri-widget"></canvas>
+                </main>
+            </article>
         </div>
     </div>
-    
+
 </div>
