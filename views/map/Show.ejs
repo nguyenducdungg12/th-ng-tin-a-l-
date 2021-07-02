@@ -14,7 +14,9 @@
     ], function (Map, MapView, Graphic,WebMap, GraphicsLayer, TimeSlider, Expand, LayerList,BasemapGallery,Legend) {
 
         var divInfo = document.querySelector(".infoDiv-list");
+        var dataAnalytis =<%- JSON.stringify(dataAnalytis) %>
 
+        console.log(dataAnalytis);
 
         var map = new Map({
             basemap: "hybrid",
@@ -60,19 +62,6 @@
             group: "top-left",
         });
 
-        // view.ui.add(
-        //   [
-            // new Expand({
-            //   content: new BasemapGallery({
-            //     view: view
-            //   }),
-            //   view: view,
-            //   expandIconClass: "esri-icon-basemap",
-            //   group: "top-left"
-            // })
-        //   ],
-        //   "top-left"
-        // );
         const legendExpand3 = new Expand({
               id: "selectBasemap",
               content: new BasemapGallery({
@@ -180,7 +169,14 @@
 
             })
 
+
+
             let dataYearPopup = data.filter( (data) =>  data.YEAR <= year)
+            // let dataAn = dataYearPopup.map( (data) => {
+
+            // })
+
+
             var temp2 = temp.map((data2) => ({
                 type: "polygon",
                 rings: JSON.parse(data2.Location),

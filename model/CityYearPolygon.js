@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize=require('./../config/db');
+const DataAnalytisModel = require('./DataAnalytis');
 
 const CityYearPolygonModel = sequelize.define('City_Year_Polygon', {
     // Model attributes are defined here
@@ -16,5 +17,7 @@ const CityYearPolygonModel = sequelize.define('City_Year_Polygon', {
     freezeTableName: true,
     timestamps: false
 });
+
+
 
 module.exports = CityYearPolygonModel;

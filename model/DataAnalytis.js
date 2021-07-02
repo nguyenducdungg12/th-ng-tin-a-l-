@@ -12,5 +12,4 @@ const DataAnalytisModel = sequelize.define('Data_Analytis', {
     freezeTableName: true,
     timestamps: false
 });
-DataAnalytisModel.hasOne(CityYearPolygon,{foreignKey:"IDPo"});
 module.exports = DataAnalytisModel;
