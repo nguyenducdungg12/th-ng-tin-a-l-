@@ -13,10 +13,9 @@
         "esri/widgets/Legend",
     ], function (Map, MapView, Graphic,WebMap, GraphicsLayer, TimeSlider, Expand, LayerList,BasemapGallery,Legend) {
 
-
-        var isToggleInfo = false;
-        var isToggleStatic = false;
         var divInfo = document.querySelector(".infoDiv-list");
+
+
         var map = new Map({
             basemap: "hybrid",
         });
@@ -47,8 +46,7 @@
             polygons: []
         };
         const infoNote = document.getElementById("infoNote");
-        const infoStatis = document.getElementById("infoStatic");
-        const legendExpand1 = new Expand({
+        const legendExpand = new Expand({
             view: view,
             content: infoNote,
             expanded: true,
@@ -223,7 +221,6 @@
         });
        
     });
-
 </script>
 <div id="viewDiv">
     <div id="timeline-city"></div>
