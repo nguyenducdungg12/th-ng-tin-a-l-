@@ -5,4 +5,3 @@ const sequelize = new Sequelize('u705797778_HTT3C', 'u705797778_vanhung0206', 'H
 });
 
 module.exports=sequelize;
-

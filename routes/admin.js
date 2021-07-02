@@ -3,6 +3,7 @@ var router = express.Router();
 const cityController=require('./../controller/CityController');
 const CityYearPolygonController = require('./../controller/CityYearPolygonController');
 const RegionController = require('./../controller/RegionController');
+const DataAnalytis = require('./../model/DataAnalytis');
 const City = require('../model/City');
 router.get("/",cityController.getDashBoard);
 // City
@@ -34,6 +35,20 @@ router.post("/region/create",RegionController.createRegion);
 // LOGIn
 router.get("/login",function(req,res){
     res.render("admin/Login/Login",{layout:"admin/Layout/Layoutlogin"});
+})
+//dataAnalytic
+
+router.get("/getDataAnalytic/:IDPo",(req,res)=>{
+    const {IDPo} =req.params;
+    console.log(req.params);
+    DataAnalytis.findOne({
+        where : {
+            IDPo : IDPo,
+    },raw : true}
+    ).then(result=>{
+        console.log(result);
+        res.json(result);
+    })
 })
 
 module.exports = router;
