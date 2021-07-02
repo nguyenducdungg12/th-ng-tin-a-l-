@@ -164,9 +164,11 @@ tr:nth-child(even) th {
 .table-items-color {
     width: 20px;
     height: 20px;
+    margin: 2px 0;
 }
 
 .table-items-title {
+    margin-left: 3px;
     display: block;
     font-size: 13px;
     padding: 0;
@@ -177,6 +179,7 @@ tr:nth-child(even) th {
 
 .leaderboard {
     max-height: 65vh;
+    overflow-x: hidden;
     overflow-y: auto;
     width: 300px;
     border-radius: 4px;
@@ -290,9 +293,18 @@ body {
 }
 
 #infoStatic{
+    overflow: hidden;
 }
 .esri-widget__heading h4{
     color : #000;
     font-weight: bold;
     font-size: 16px;
+}
+
+/* Char */
+
+.StaticSelect {
+    height: 40px;
+    margin: 10px;
+    width: 95%;
 }
