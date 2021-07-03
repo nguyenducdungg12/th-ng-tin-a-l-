@@ -18,6 +18,8 @@ const CityYearPolygonModel = sequelize.define('City_Year_Polygon', {
     timestamps: false
 });
 
+CityYearPolygonModel.hasOne(DataAnalytisModel,{foreignKey:"IDPo"});
+DataAnalytisModel.belongsTo(CityYearPolygonModel,{foreignKey:"IDPo"});
 
 
 module.exports = CityYearPolygonModel;

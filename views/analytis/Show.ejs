@@ -1,14 +1,11 @@
 <script>
-    var data =<%- JSON.stringify(cities) %>
-    var infoCity =<%- JSON.stringify(infoCity) %>
-    var dataAnalyst =<%- JSON.stringify(dataAnalytic) %>
-    var dothi1=[];
-    var dothi2=[];
-    var dothi3=[];
-    
-    // Nếu dân số tăng cao từ 10% =>cao 5%=> vừa <5% thấp
-    // Nếu tỉ lệ kinh tế từ 3->2 =6% 2->1 8%
-    // Dự đoán diện tích đất đai
+    var dothi1 = <%- JSON.stringify(dothi1) %>;
+    var dothi2 = <%- JSON.stringify(dothi2) %>;
+    var dothi3 = <%- JSON.stringify(dothi3) %>;
+    console.log(dothi1);
+    console.log(dothi1[0]["City_Year_Polygon.City.Name"])
+    console.log(dothi2);
+    console.log(dothi3);
 </script>
 <div class="statistical">
     <div class="statistical__analytis">
@@ -16,16 +13,55 @@
             <tr class="statistical__analytis__heading">
                 <th>Thành phố</th>
                 <th>Loại đô thị</th>
-                <th>Dự đoán</th>
+                <th>Dự đoán năm 2021</th>
                 <th>Hướng phát triển</th>
             </tr>
-            <% infoCity.forEach(function(city){ %>
+            <% dothi1.forEach(function(city){ %>
                 <tr>
-                    <th>
-                        <%=city.Name%>
+                    <th>    
+                        <%=JSON.stringify(city["City_Year_Polygon.City.Name"])%>
                     </th>
                     <th>
-
+                        Loại 1
+                    </th>
+                    <th>
+                        <% var tdpt=parseInt(parseInt(JSON.stringify(city["City_Year_Polygon.Industry"]))*(100+parseFloat(city.llcreate))/100)%>
+                        <% var tdds=parseInt(parseInt(JSON.stringify(city["City_Year_Polygon.Population"]))*(100+parseFloat(city.DPop))/100)%>
+                        <% var tddt=parseInt(parseInt(JSON.stringify(city["City_Year_Polygon.Area"]))*(100+parseFloat(city.AVGAcr))/100)%>
+                        <p>Dân số:<%= tdds%></p>
+                        <p>Tốc độ phát triển kinh tế:<%=tdpt%>%</p>
+                        <%if(tdpt){%>
+                            
+                        <%}%>
+                        <p>Diện tích: <%=tddt%> km vuông </p>
+                    </th>
+                </tr>
+            <% }) %>
+            <% dothi2.forEach(function(city){ %>
+                <tr>
+                    <th>    
+                        <%=JSON.stringify(city["City_Year_Polygon.City.Name"])%>
+                    </th>
+                    <th>
+                        Loại 2
+                    </th>
+                    <th>
+                        <p>Dân số:<%=parseInt(parseInt(JSON.stringify(city["City_Year_Polygon.Population"]))*(100+parseFloat(city.DPop))/100)%></p>
+                        <p>Tốc độ phát triển:<%=parseInt(parseInt(JSON.stringify(city["City_Year_Polygon.Industry"]))*(100+parseFloat(city.llcreate))/100)%></p>
+                        <p>Diện tích:<%=parseInt(parseInt(JSON.stringify(city["City_Year_Polygon.Area"]))*(100+parseFloat(city.AVGAcr))/100)%> km vuông</p>
+                    </th>
+                </tr>
+            <% }) %>
+            <% dothi3.forEach(function(city){ %>
+                <tr>
+                    <th>    
+                        <%=JSON.stringify(city["City_Year_Polygon.City.Name"])%>
+                    </th>
+                    <th>
+                        Loại 3
+                    </th>
+                    <th>
+                        
                     </th>
                 </tr>
             <% }) %>
