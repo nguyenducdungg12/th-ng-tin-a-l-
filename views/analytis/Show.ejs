@@ -2,6 +2,11 @@
     var dothi1 = <%- JSON.stringify(dothi1) %>;
     var dothi2 = <%- JSON.stringify(dothi2) %>;
     var dothi3 = <%- JSON.stringify(dothi3) %>;
+    $(document).ready(function(){
+        var tk2=document.querySelectorAll(".thongkeloai2");
+        tk2[0].innerHTML="123";
+        tk2[1].innerHTML="123";
+    })
 </script>
 <div class="statistical">
     <%  const GuessCity1 = function(city) {%>
@@ -56,6 +61,9 @@
                             <p>Tốc độ phát triển kinh tế:<%=tdpt%>%</p>
                             <p>Diện tích: <%=tddt%> km2 </p>
                         </th>
+                        <th class="thongkeloai2">
+                            
+                        </th>
                     </tr>
                 <% }) %>
                 <% dothi3.forEach(function(city){ %>
@@ -80,6 +88,9 @@
                                 
                             <%}%>
                             <p>Diện tích: <%=tddt%> km2 </p>
+                        </th>
+                        <th class="thongkeloai3">
+                            
                         </th>
                     </tr>
                 <% }) %>
