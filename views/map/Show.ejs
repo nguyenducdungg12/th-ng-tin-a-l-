@@ -27,7 +27,7 @@
         var infoSelected = document.querySelector(".StaticSelect");
 
         var map = new Map({
-            basemap: "hybrid",
+            basemap: "streets-vector",
         });
         map.on("load", function () {
             map.graphics.enableMouseEvents();
@@ -36,7 +36,7 @@
             container: "viewDiv",
             map: map,
             center: [105.8066925, 15.9030623], //Longitude, latitude
-            zoom: 6,
+            zoom: 5,
         });
         var data =<%- JSON.stringify(cities) %>
         var infoCity =<%- JSON.stringify(infoCity) %>
