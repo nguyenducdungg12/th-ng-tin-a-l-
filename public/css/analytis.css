@@ -67,6 +67,11 @@ td {
 	/* width: 25%; */
 	padding: 20px;
 }
+th,
+td {
+	/* width: 25%; */
+	padding: 20px;
+}
 
 .statistical__analytis__heading {
 	background-color: #333;
@@ -87,18 +92,18 @@ td {
 	padding-top: 20px;
 }
 
-.statistical__analytis--main{
+.statistical__analytis--main {
 	overflow: auto;
-	width: 1100px;
+	width: 1200px;
 	height: 600px;
 	background-color: white;
 }
 
-.statistical__analytis--criteria{
+.statistical__analytis--criteria {
 	background-color: white;
-	width: 350px;
+	width: 300px;
 	height: fit-content;
-	padding:10px;
+	padding: 20px;
 }
 
 .statistical__analytis__list {
@@ -109,22 +114,37 @@ td {
 	border-right: 1px solid black;
 }
 
-.statistical__analytis--criteria{
-
+.statistical__analytis--criteria {
 }
 
-.statistical__analytis--criteria--title{
+.statistical__analytis--criteria--title {
 	font-weight: bold;
 	font-size: 24px;
-}	
+}
 
-.statistical__analytis--criteria--city{
-    font-weight: bold;
+.statistical__analytis--criteria--city {
+	font-weight: bold;
 	font-size: 18px;
 }
 
-.statistical__analytis--criteria--detail{
+.statistical__analytis--criteria--detail {
+}
 
+.thongkeloai2 {
+	display: -webkit-box;
+	-webkit-line-clamp: 5;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	height: 140px;
+	cursor: pointer;
+}
+
+.analist-item--small{
+	width: 12%;
+}
+
+.analist-item{
+	width: 25%;
 }
 
 /* NEW */
@@ -328,4 +348,3 @@ div[class*="-stats"] span:hover {
 		transform: scaleY(1);
 	}
 }
-
