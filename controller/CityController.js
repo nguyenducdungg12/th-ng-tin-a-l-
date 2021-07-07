@@ -25,10 +25,11 @@ class cityController {
         console.log(citys[1].dataValues.Region.dataValues.Name);
         var CityOfNorth=0,CityOfSouth=0,CityOfWestern=0;
         citys.forEach(data=>{
-            if(data.dataValues.Region.dataValues.Name=="Miền Bắc"){
+            console.log(data.Region.dataValues.Name==" Miền Bắc");
+            if(data.dataValues.Region.dataValues.Name==" Miền Bắc"){
                 CityOfNorth++;
             }
-            else if(data.dataValues.Region.dataValues.Name=="Miền Nam"){
+            else if(data.dataValues.Region.dataValues.Name==" Miền Nam"){
                 CityOfSouth++;
             }
             else{
