@@ -64,7 +64,7 @@ table {
 }
 th,
 td {
-	width: 25%;
+	/* width: 25%; */
 	padding: 20px;
 }
 
@@ -78,14 +78,27 @@ td {
 }
 
 .statistical__analytis {
-	position: absolute;
+	/* position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 1350px;
+	transform: translate(-50%, -50%); */
+	justify-content: space-around;
+	display: flex;
+	padding-top: 20px;
+}
+
+.statistical__analytis--main{
+	overflow: auto;
+	width: 1100px;
 	height: 600px;
 	background-color: white;
-	overflow: auto;
+}
+
+.statistical__analytis--criteria{
+	background-color: white;
+	width: 350px;
+	height: fit-content;
+	padding:10px;
 }
 
 .statistical__analytis__list {
@@ -94,6 +107,24 @@ td {
 
 .statistical__analytis__item {
 	border-right: 1px solid black;
+}
+
+.statistical__analytis--criteria{
+
+}
+
+.statistical__analytis--criteria--title{
+	font-weight: bold;
+	font-size: 24px;
+}	
+
+.statistical__analytis--criteria--city{
+    font-weight: bold;
+	font-size: 18px;
+}
+
+.statistical__analytis--criteria--detail{
+
 }
 
 /* NEW */
@@ -297,3 +328,4 @@ div[class*="-stats"] span:hover {
 		transform: scaleY(1);
 	}
 }
+
