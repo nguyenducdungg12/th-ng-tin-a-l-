@@ -34,7 +34,6 @@ class AnalytisController {
             model:CityYearPolygon,
             where:{
                 CityType:3,
-                Year:2020
             },
             required:true,
             include: [{

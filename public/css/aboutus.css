@@ -1,0 +1,55 @@
+.aboutreal{
+	cursor: pointer;
+	padding-top: 20px;
+	padding-bottom: 30px;
+}
+.aboutreal h1 {
+	padding: 10px 0;
+	margin-bottom: 20px;
+}
+.aboutreal h2 {
+	opacity: .8;
+}
+.aboutreal span {
+	display: block;
+	width: 100px;
+	height: 100px;
+	line-height: 100px;
+	margin:auto;
+	border-radius:50%;  
+	font-size: 40px;
+	color: #FFFFFF;
+	opacity: 0.7;
+	background-color: #4e73df;
+    border: 2px solid #1a3173;
+	webkit-transition:all .5s ease;
+ 	moz-transition:all .5s ease;
+ 	os-transition:all .5s ease;
+ 	transition:all .5s ease;
+
+}
+.aboutreal-item:hover span{
+	opacity: 1;	
+	border: 2px solid #1a3173;
+	font-size: 42px;
+	-webkit-transform: scale(1.1,1.1) rotate(360deg) ;
+	-moz-transform: scale(1.1,1.1) rotate(360deg) ;
+	-o-transform: scale(1.1,1.1) rotate(360deg) ;
+	transform: scale(1.1,1.1) rotate(360deg) ;
+}
+.aboutreal-item:hover h2{
+	opacity: 1;
+	-webkit-transform: scale(1.1,1.1)  ;
+	-moz-transform: scale(1.1,1.1)  ;
+	-o-transform: scale(1.1,1.1)  ;
+	transform: scale(1.1,1.1) ;
+}
+.aboutreal .lead{
+	color: #1a3173;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.aboutreal--avatar{
+	width: 100%;
+}
